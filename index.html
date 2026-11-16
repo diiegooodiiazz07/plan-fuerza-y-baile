@@ -1,0 +1,841 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+</head>
+<body>
+<title>Tu Plan Fuerza y Baile</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,500..900&family=Figtree:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: guía de consulta para la clienta — cabecera fija, dos vistas (#comidas con platos ilustrados, #ejercicios con figuras animadas), barra inferior en móvil y pestañas arriba en escritorio. */
+:root{
+  --bg:#F5F3F7; --surface:#FFFFFF; --surface-2:#EDE9F1; --ink:#1C1722; --muted:#655D6E; --line:#DED8E4;
+  --berry:#A3195B; --berry-ink:#FFFFFF; --berry-soft:#F7DCE8;
+  --teal:#0E6E6A; --teal-soft:#D5EEEB; --bad:#B3261E; --good:#2C7A4B; --good-soft:#DCF0E2;
+  --fig:#2A2431; --fig-far:#B9B1C2; --equip:#9C94A6; --equip-soft:#D9D3DF; --focus:#E0457F;
+  --plate:#FFFFFF; --plate-rim:#E4DEE9; --dish:#EAD8C2; --dish-s:#D2BB9F;
+  --f-pasta:#E9B949; --f-pasta-s:#C38E25; --f-tomato:#D2442F; --f-rice:#FBF7EE; --f-rice-s:#CFC5B2;
+  --f-chicken:#E2B07A; --f-grill:#9A6233; --f-beef:#8E4A33; --f-pork:#D9977A; --f-potato:#EFC15A;
+  --f-sweet:#E8823A; --f-sweet2:#F4B072; --f-green:#4F9D4A; --f-green2:#7DBF5C; --f-lentil:#8A5A3B;
+  --f-chickpea:#E3C58E; --f-chickpea-s:#C4A36A; --f-carrot:#EE8A2E; --f-ham:#E68FA0; --f-curry:#E3A72F;
+  --f-cheese:#FBE7A1; --f-tortilla:#EBCB8B; --f-crust:#B97A3F; --f-crumb:#EFD3A2; --f-soup:#E79A3C;
+  --f-yogurt:#FBFAF6; --f-orange:#F29A2E; --f-kiwi:#8FBF3C; --f-kiwi-s:#7A5A35; --f-banana:#F4CF4A;
+  --f-pear:#C9D35A; --f-coffee:#7A4E2D; --f-froth:#D9B48C; --f-mush:#BFA58A; --f-pepper:#D9442F;
+  --f-cucumber:#D4EAAE; --f-turkey:#F2B8B0; --f-queso:#F7E3A0; --f-jamon:#B8323F; --f-thigh:#C98B4E;
+  --display:"Archivo","Arial Narrow",system-ui,sans-serif;
+  --body:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --r:14px; --r-sm:10px;
+  --shadow:0 1px 2px rgba(28,23,34,.06),0 4px 16px rgba(28,23,34,.05);
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#121015; --surface:#1B1820; --surface-2:#25212B; --ink:#F1EDF4; --muted:#A79FB0; --line:#332D3A;
+  --berry:#F0629F; --berry-ink:#1A0A12; --berry-soft:#3B1829; --teal:#4FC2B8; --teal-soft:#13302D; --bad:#F2766D; --good:#63C78B; --good-soft:#15301F;
+  --fig:#EDE7F2; --fig-far:#5D5566; --equip:#7D7488; --equip-soft:#3A3441; --focus:#F0629F;
+  --plate:#2B2631; --plate-rim:#3B3542; --dish:#4A3B2F; --dish-s:#5E4B3B;
+  --shadow:0 1px 2px rgba(0,0,0,.4); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#121015; --surface:#1B1820; --surface-2:#25212B; --ink:#F1EDF4; --muted:#A79FB0; --line:#332D3A;
+  --berry:#F0629F; --berry-ink:#1A0A12; --berry-soft:#3B1829; --teal:#4FC2B8; --teal-soft:#13302D; --bad:#F2766D; --good:#63C78B; --good-soft:#15301F;
+  --fig:#EDE7F2; --fig-far:#5D5566; --equip:#7D7488; --equip-soft:#3A3441; --focus:#F0629F;
+  --plate:#2B2631; --plate-rim:#3B3542; --dish:#4A3B2F; --dish-s:#5E4B3B;
+  --shadow:0 1px 2px rgba(0,0,0,.4); color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--bg)}
+h1,h2,h3{font-family:var(--display);font-stretch:118%;line-height:1.1;text-wrap:balance;margin:0}
+h1{font-size:1.2rem;font-weight:800}
+h2{font-size:1.5rem;font-weight:800}
+h3{font-size:1.08rem;font-weight:700}
+p{margin:0}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--berry);outline-offset:2px;border-radius:6px}
+.num{font-variant-numeric:tabular-nums}
+.muted{color:var(--muted)}
+.small{font-size:.875rem}
+.eyebrow{font-size:.72rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+.shell{max-width:980px;margin:0 auto}
+.gutter{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top-in{display:flex;align-items:center;gap:12px;padding-block:12px}
+.mark{width:34px;height:34px;border-radius:10px;background:var(--berry);display:grid;place-items:center;flex:none}
+.mark svg{width:20px;height:20px}
+.sub{font-size:.8rem;color:var(--muted)}
+.nav{position:fixed;left:0;right:0;bottom:0;z-index:25;background:var(--surface);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px)}
+.nav-in{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);max-width:980px;margin:0 auto}
+.nav a{display:flex;flex-direction:column;align-items:center;gap:2px;padding:9px 2px 10px;text-decoration:none;color:var(--muted);font-size:.75rem;font-weight:600}
+.nav a svg{width:22px;height:22px}
+.nav a[aria-current="page"]{color:var(--berry)}
+main{padding-block:20px 110px}
+@media (min-width:760px){
+  .nav{position:sticky;top:calc(env(safe-area-inset-top,0px) + 59px);bottom:auto;border-top:0;border-bottom:1px solid var(--line);background:var(--bg);padding-bottom:0;z-index:19}
+  .nav-in{display:flex;gap:4px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+  .nav a{flex-direction:row;gap:8px;font-size:.95rem;padding:10px 14px;border-bottom:2px solid transparent}
+  .nav a svg{width:18px;height:18px}
+  .nav a[aria-current="page"]{border-bottom-color:var(--berry)}
+  main{padding-block:28px 60px}
+}
+.stack{display:flex;flex-direction:column;gap:16px}
+.stack-lg{display:flex;flex-direction:column;gap:28px}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.between{justify-content:space-between}
+.lead{color:var(--muted);max-width:65ch}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px;box-shadow:var(--shadow);min-width:0}
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:.78rem;font-weight:700;padding:4px 10px;border-radius:999px;background:var(--surface-2);color:var(--muted);white-space:nowrap}
+.pill.baile{background:var(--berry-soft);color:var(--berry)}
+.pill.gym{background:var(--teal-soft);color:var(--teal)}
+.seg{display:inline-flex;background:var(--surface-2);border-radius:999px;padding:3px;gap:2px;flex-wrap:wrap}
+.seg button{border:0;background:transparent;border-radius:999px;padding:7px 13px;font-weight:600;font-size:.9rem;cursor:pointer;color:var(--muted)}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:var(--shadow)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 14px;font-weight:600;cursor:pointer;min-height:36px;font-size:.88rem}
+.btn:hover{border-color:var(--muted)}
+.btn[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+
+/* Día */
+.dayhead{background:var(--ink);color:var(--bg);border-radius:var(--r);padding:18px 20px;display:flex;gap:16px;align-items:flex-end;justify-content:space-between;flex-wrap:wrap}
+.dayhead h2{font-size:clamp(1.6rem,6vw,2.2rem);font-stretch:125%;font-weight:900}
+.dayhead .pill{background:color-mix(in srgb,var(--bg) 14%,transparent);color:var(--bg)}
+.dayhead .pill.baile{background:var(--berry);color:var(--berry-ink)}
+.dayhead .pill.gym{background:var(--teal);color:var(--ink)}
+.kcal-big{display:flex;flex-direction:column;align-items:flex-end}
+.kcal-big b{font-family:var(--display);font-stretch:112%;font-size:1.6rem;font-weight:900;line-height:1}
+.kcal-big span{font-size:.75rem;opacity:.75}
+.timeline{display:flex;flex-direction:column;gap:14px}
+.act{display:flex;gap:12px;align-items:center;padding:10px 14px;border-radius:var(--r-sm);background:var(--surface-2);font-size:.92rem}
+.act.baile{background:var(--berry-soft);color:var(--berry)}
+.act.gym{background:var(--teal-soft);color:var(--teal)}
+.act time{font-weight:800;font-variant-numeric:tabular-nums;min-width:44px}
+.meal{display:grid;grid-template-columns:1fr;gap:0;overflow:hidden;padding:0}
+.meal .art{background:var(--surface-2);display:flex;align-items:center;justify-content:center;padding:10px}
+.meal .art svg{width:100%;max-width:320px;height:auto;display:block}
+.meal .txt{padding:16px 18px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.meal .when{display:flex;gap:8px;align-items:baseline}
+.meal .when time{font-weight:800;font-variant-numeric:tabular-nums;color:var(--berry)}
+.meal ul{margin:0;padding-left:1.1em;display:flex;flex-direction:column;gap:3px;font-size:.95rem}
+.meal .kc{font-size:.8rem;color:var(--muted);font-variant-numeric:tabular-nums}
+@media (min-width:640px){.meal{grid-template-columns:260px minmax(0,1fr)}.meal .art{padding:14px}}
+details.more{border-top:1px solid var(--line);padding-top:10px}
+details.more summary{cursor:pointer;font-weight:600;list-style:none}
+details.more summary::-webkit-details-marker{display:none}
+details.more summary::before{content:"+ ";color:var(--muted)}
+details.more[open] summary::before{content:"− "}
+details.more[open]{display:flex;flex-direction:column;gap:8px}
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r-sm)}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);background:var(--surface-2)}
+tr:last-child td{border-bottom:0}
+
+/* Ejercicios */
+.session{background:var(--ink);color:var(--bg);border-radius:var(--r);padding:18px 20px;display:flex;flex-direction:column;gap:10px}
+.session .eyebrow{color:inherit;opacity:.75}
+.phase{border-radius:var(--r);padding:14px 16px;background:var(--teal-soft);color:var(--teal);font-size:.92rem}
+.phase b{font-family:var(--display);font-stretch:115%}
+.phase span{color:var(--ink)}
+.ex{display:grid;grid-template-columns:1fr;gap:0;padding:0;overflow:hidden}
+.ex .stage{background:var(--surface-2);position:relative;display:flex;flex-direction:column;align-items:center;padding:12px 12px 10px;gap:6px}
+.ex .stage svg{width:100%;max-width:360px;height:auto;display:block}
+.ex .ph{font-size:.82rem;font-weight:700;color:var(--muted);min-height:1.3em;text-align:center}
+.ex .poses{display:flex;gap:6px}
+.ex .body{padding:16px 18px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.ex-n{width:30px;height:30px;border-radius:50%;background:var(--ink);color:var(--bg);display:grid;place-items:center;font-weight:800;font-size:.9rem;flex:none;font-family:var(--display)}
+@media (min-width:760px){.ex{grid-template-columns:340px minmax(0,1fr)}.ex .stage{justify-content:center}}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.mchip{font-size:.75rem;font-weight:700;padding:3px 9px;border-radius:999px;background:var(--berry-soft);color:var(--berry)}
+.mchip.soft{background:var(--surface-2);color:var(--muted)}
+.presc{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.presc div{background:var(--surface-2);border-radius:8px;padding:8px 10px;display:flex;flex-direction:column;min-width:0}
+.presc b{font-family:var(--display);font-stretch:110%;font-size:1.05rem;font-variant-numeric:tabular-nums}
+.presc span{font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+@media (max-width:420px){.presc{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.feel{font-size:.93rem;border-left:3px solid var(--focus);padding-left:10px}
+ol.steps{margin:0;padding-left:1.3em;display:flex;flex-direction:column;gap:6px;font-size:.95rem}
+ul.errs{margin:0;padding-left:1.1em;display:flex;flex-direction:column;gap:4px;font-size:.93rem}
+ul.errs li::marker{color:var(--bad)}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:.8rem;color:var(--muted);align-items:center}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:50%;background:var(--focus);opacity:.45;vertical-align:-2px;margin-right:5px}
+@page{size:A4;margin:11mm}
+body.printing{-webkit-print-color-adjust:exact;print-color-adjust:exact;font-size:13.5px;background:#FFFFFF}
+body.printing .top,body.printing .nav{display:none}
+body.printing main{padding-block:0;max-width:none}
+.print{display:flex;flex-direction:column}
+.ppage{break-before:page;display:flex;flex-direction:column;gap:10px}
+.ppage.cover{break-before:auto;gap:22px}
+.phead{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap;border-bottom:2px solid var(--ink);padding-bottom:8px}
+.phead .row{gap:6px}
+.pback{font-size:.8rem;text-decoration:none;color:var(--berry);font-weight:700;margin-left:6px}
+.pmeal{display:grid;grid-template-columns:180px minmax(0,1fr);gap:14px;break-inside:avoid;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.pmeal .art{background:var(--surface-2);display:flex;align-items:center;padding:6px}
+.pmeal .art svg{width:100%;height:auto}
+.pmeal .txt{padding:10px 12px 10px 0;display:flex;flex-direction:column;gap:3px}
+.pmeal .when{display:flex;gap:8px;align-items:baseline}.pmeal time{font-weight:800;color:var(--berry)}
+.pmeal ul{margin:0;padding-left:1.1em;font-size:.9rem}
+.pmeal .kc{font-size:.78rem;color:var(--muted)}
+.pex{break-inside:avoid;border:1px solid var(--line);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:7px}
+.pfigs{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pfigs figure{margin:0;background:var(--surface-2);border-radius:10px;padding:6px;display:flex;flex-direction:column;align-items:center;gap:2px}
+.pfigs svg{width:100%;height:auto;max-height:140px}
+.pfigs figcaption{font-size:.75rem;font-weight:700;color:var(--muted)}
+.pcols{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.pcols ol,.pcols ul{font-size:.86rem}
+.cover-band{background:var(--ink);color:var(--bg);border-radius:16px;padding:44px 30px;display:flex;flex-direction:column;gap:12px}
+.ctitle{font-size:3.2rem;font-stretch:125%;font-weight:900;line-height:.95;font-family:var(--display)}
+.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+.toc{display:flex;flex-direction:column;gap:7px;padding-left:1.2em;margin:10px 0}
+.toc a{color:var(--ink);font-weight:600}
+.print a{color:inherit}
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+</style>
+
+<header class="top">
+  <div class="shell gutter top-in">
+    <div class="mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="var(--berry-ink)" stroke-width="2.4" stroke-linecap="round"><path d="M4 9v6M8 6v12M16 6v12M20 9v6M8 12h8"/></svg></div>
+    <div style="min-width:0"><h1>Tu Plan Fuerza y Baile</h1><div class="sub" id="sub"></div></div>
+  </div>
+</header>
+<nav class="nav" aria-label="Secciones">
+  <div class="nav-in" id="nav">
+    <a href="#comidas" data-v="comidas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12h18a9 9 0 0 1-18 0zM12 3v3M8 5l1 2M16 5l-1 2"/></svg>Comidas</a>
+    <a href="#ejercicios" data-v="ejercicios"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 10v4M6.5 7v10M17.5 7v10M21 10v4M6.5 12h11"/></svg>Ejercicios</a>
+  </div>
+</nav>
+<main class="shell gutter" id="main"></main>
+
+<script>
+/* ============ DATOS: comidas y ejercicios (mismo plan que el del entrenador) ============ */
+const TOP = {
+  pavo:"4 lonchas de pavo (50 g) + 1 cucharadita de aceite (5 g)",
+  queso:"2 lonchas de queso tierno (40 g), sin aceite",
+  jamon:"3 lonchas de jamón serrano (30 g) + 1 cucharadita de aceite (5 g)",
+  mixto:"2 lonchas de pavo + 1 loncha de queso tierno",
+  sandJQ:"Sándwich: 2 lonchas de jamón serrano + 1 loncha de queso tierno"
+};
+const desayuno = (top, time="7:30") => ({t:"meal", id:"desayuno", time, title:"Desayuno", sum:"Café con leche + 2 tostadas integrales",
+  items:["Café con 1 taza de leche semidesnatada sin lactosa (200 ml)","2 tostadas o 1 sándwich de pan integral (~70 g)", top], kcal:"≈ 360 kcal · 24 g proteína"});
+/* 4.ª comida opcional: se activa desde la app cuando 3 comidas resulten fáciles */
+const EXTRA_KCAL = 230;
+const MEAL4 = (time, title) => ({t:"meal", id:"merienda", time, title, extra:true, sum:"Leche + proteína en polvo",
+  items:["250 ml de leche sin lactosa","1 cacito de proteína en polvo (30 g)","Batidora o vaso mezclador, 30 segundos"], kcal:"≈ 230 kcal · 32 g proteína"});
+const slot4 = (time="18:00", title="Merienda · batido") => ({t:"slot4", time, title});
+
+const DAYS = [
+ {key:"lun", name:"Lunes", tags:["baile","gym"], label:"Baile 19:00 + Gimnasio A 20:30", kcal:1950, water:12, gym:"A", load:"Alta",
+  tip:"Comes a las 15:00 y llegas al baile con la comida bien asentada. En el gimnasio salta el calentamiento general: vienes caliente del baile.",
+  agenda:[desayuno(TOP.pavo),
+   {t:"meal", id:"almuerzo", time:"15:00", title:"Pasta con pollo y tomate", sum:"Pasta, pollo, tomate y espinacas",
+    items:["100 g de pasta cruda (2 puños y medio cocida)","150 g de pechuga de pollo (1 palma grande)","½ vaso de tomate triturado","1 puñado de espinacas","1 cucharada de aceite (10 g)","30 g de pan","Postre: 1 naranja"], kcal:"≈ 800 kcal · 50 g proteína"},
+   slot4(),
+   {t:"act", kind:"baile", time:"19:00", title:"Baile · coreografía", sum:"1 hora · bebe 500 ml durante"},
+   {t:"act", kind:"gym", time:"20:30", title:"Gimnasio · Día A", sum:"Fuerza de glúteo e isquios · 75 min", link:"#gym"},
+   {t:"meal", id:"cena", time:"22:15", title:"Fajitas de lomo", sum:"2 tortillas, lomo, pimiento y mozzarella",
+    items:["2 tortillas de trigo","150 g de lomo en tiras (1 palma grande)","½ pimiento + ½ cebolla a la plancha","1 puñado de mozzarella rallada (40 g)","1 cucharadita de aceite (5 g)","Postre: 1 yogur griego (125 g)"], kcal:"≈ 850 kcal · 50 g proteína"}]},
+ {key:"mar", name:"Martes", tags:["descanso"], label:"Descanso", kcal:1950, water:8, load:"Baja",
+  tip:"Día de recuperación. Un paseo de 20–30 minutos es opcional y ayuda si estás todo el día sentada.",
+  agenda:[desayuno(TOP.queso),
+   {t:"meal", id:"almuerzo", time:"15:00", title:"Lentejas con verduras", sum:"Lentejas de bote, patata y jamón",
+    items:["1 bote de lentejas cocidas (~250 g escurridas)","1 patata pequeña (100 g) en dados","Zanahoria, pimiento y cebolla","40 g de jamón serrano en taquitos","1 cucharada de aceite (10 g)","60 g de pan","Postre: 2 mandarinas"], kcal:"≈ 820 kcal · 42 g proteína"},
+   slot4(),
+   {t:"act", kind:"rest", time:"—", title:"Descanso activo", sum:"Paseo opcional de 20–30 min"},
+   {t:"meal", id:"cena", time:"21:30", title:"Pollo con patatas en freidora de aire", sum:"Pechuga, patata, ensalada y yogur",
+    items:["150 g de pechuga de pollo (1 palma grande)","1 patata grande y algo más (300 g) en la freidora de aire con 1 cucharadita de aceite","Ensalada de tomate, lechuga y pepino con 1 cucharadita de aceite","30 g de pan","Postre: 1 yogur griego (125 g)"], kcal:"≈ 740 kcal · 48 g proteína"}]},
+ {key:"mie", name:"Miércoles", tags:["baile"], label:"Baile 19:00", kcal:1950, water:10, load:"Media",
+  tip:"Comes a las 15:00, cuatro horas antes del baile. Si a las 18:30 tienes hambre, toma una pieza de fruta.",
+  agenda:[desayuno(TOP.jamon),
+   {t:"meal", id:"almuerzo", time:"15:00", title:"Arroz salteado con pollo", sum:"Arroz, pollo, jamón cocido y verduras",
+    items:["100 g de arroz crudo (2 puños y medio cocido)","120 g de pollo en dados","50 g de jamón cocido en taquitos","1 puñado de guisantes y zanahoria","1 cucharada de salsa de soja","1 cucharada de aceite (10 g)","Postre: 2 kiwis"], kcal:"≈ 780 kcal · 48 g proteína"},
+   slot4(),
+   {t:"act", kind:"baile", time:"19:00", title:"Baile · coreografía", sum:"1 hora · bebe 500 ml durante"},
+   {t:"meal", id:"cena", time:"21:15", title:"Lomo con boniato", sum:"Lomo, boniato, judías verdes y yogur",
+    items:["150 g de lomo (3 filetes finos)","1 boniato grande (300 g), al horno o 8–10 min en el microondas","Judías verdes salteadas","1 cucharada de aceite (10 g)","30 g de pan","Postre: 1 yogur griego (125 g)"], kcal:"≈ 800 kcal · 46 g proteína"}]},
+ {key:"jue", name:"Jueves", tags:["descanso"], label:"Descanso", kcal:1950, water:8, load:"Baja",
+  tip:"Hoy no hay gimnasio: mañana es tu día más duro. Si te saltaste el lunes, mira la regla del comodín en la Guía.",
+  agenda:[desayuno(TOP.mixto),
+   {t:"meal", id:"almuerzo", time:"15:00", title:"Garbanzos con pollo y espinacas", sum:"Garbanzos de bote, pollo y espinacas",
+    items:["1 bote de garbanzos (~240 g escurridos)","120 g de pollo en dados","1 bolsa pequeña de espinacas + pimentón","1 cucharada de aceite (10 g)","60 g de pan","Postre: 1 pera"], kcal:"≈ 760 kcal · 50 g proteína"},
+   slot4(),
+   {t:"meal", id:"cena", time:"21:30", title:"Ternera con patata", sum:"Filete de ternera, patata, ensalada y yogur",
+    items:["1 filete de ternera de 150 g","Patata (300 g) en el microondas o la freidora de aire","Ensalada","1 cucharada de aceite (10 g)","30 g de pan","Postre: 1 yogur griego (125 g)"], kcal:"≈ 750 kcal · 46 g proteína"}]},
+ {key:"vie", name:"Viernes", tags:["gym","baile"], label:"Gimnasio B 10:00 + Baile 17:30", kcal:2150, water:14, gym:"B", load:"Alta",
+  tip:"Tu día más exigente. Por eso el almuerzo y la cena son los más grandes de la semana y llevas un plátano antes del baile. Lleva 1 L de agua al baile.",
+  agenda:[desayuno(TOP.pavo),
+   {t:"act", kind:"gym", time:"10:00", title:"Gimnasio · Día B", sum:"Glúteo medio, espalda y core · RIR 2–3", link:"#gym"},
+   slot4("11:30", "Batido al salir del gimnasio"),
+   {t:"meal", id:"almuerzo", time:"14:30", title:"Macarrones gratinados", sum:"Macarrones, pollo, tomate y mozzarella",
+    items:["120 g de macarrones crudos","150 g de pollo en dados","½ vaso de tomate triturado","40 g de mozzarella por encima","1 cucharadita de aceite (5 g)","Horno o freidora de aire, 8–10 min","Postre: 1 fruta"], kcal:"≈ 850 kcal · 55 g proteína"},
+   {t:"meal", id:"prebaile", time:"16:45", title:"Plátano antes del baile", sum:"Solo una pieza de fruta, no es una comida", note:true,
+    items:["1 plátano (o 2 mandarinas)","Te da energía para 2 h 30 min de física sin llenarte"], kcal:"≈ 100 kcal"},
+   {t:"act", kind:"baile", time:"17:30", title:"Baile · física", sum:"2 h 30 min · agua y, en el descanso, isotónica si te apagas"},
+   {t:"meal", id:"cena", time:"21:00", title:"Pollo al curry con arroz", sum:"Arroz, pollo, salsa suave de curry y yogur",
+    items:["100 g de arroz crudo (2 puños y medio cocido)","150 g de pollo","100 ml de leche sin lactosa + cebolla + curry","1 cucharada de aceite (10 g)","Postre: 1 yogur griego (125 g)"], kcal:"≈ 830 kcal · 50 g proteína"}]},
+ {key:"sab", name:"Sábado", tags:["descanso"], label:"Descanso · comes fuera", kcal:1950, water:8, load:"Baja",
+  tip:"Comida fuera: elige un plato con proteína visible y disfruta. Sin compensar después.",
+  agenda:[desayuno(TOP.sandJQ, "9:30"),
+   {t:"meal", id:"almuerzo", time:"14:30", title:"Comida fuera", sum:"Lo que te apetezca",
+    items:["Un plato con proteína visible: pollo, carne, jamón o queso","Come hasta quedar llena: es una de tus 3 comidas","Refresco zero si te apetece","Sin compensar después"], kcal:"Sin contar"},
+   slot4(),
+   {t:"meal", id:"cena", time:"21:30", title:"Pizza rápida sobre tortilla", sum:"Tortilla, tomate, mozzarella y jamón",
+    items:["2 tortillas de trigo como base","2 cucharadas de tomate triturado","80 g de mozzarella","80 g de jamón cocido","Champiñones y orégano","Ensalada al lado con 1 cucharadita de aceite"], kcal:"≈ 720 kcal · 42 g proteína"}]},
+ {key:"dom", name:"Domingo", tags:["descanso"], label:"Descanso", kcal:1950, water:8, load:"Baja",
+  tip:"Buen día para hacer la compra de la semana y, cada 2 semanas, tomarte las medidas.",
+  agenda:[desayuno(TOP.pavo, "9:30"),
+   {t:"meal", id:"almuerzo", time:"14:30", title:"Contramuslos al horno", sum:"Pollo, patatas y verduras al horno",
+    items:["180 g de contramuslo deshuesado sin piel","Patata (300 g) + pimiento, cebolla y calabacín","Todo al horno 35 min a 200 °C con 1 cucharada de aceite","30 g de pan","Postre: 1 fruta"], kcal:"≈ 740 kcal · 40 g proteína"},
+   slot4(),
+   {t:"meal", id:"cena", time:"21:30", title:"Crema y sándwich caliente", sum:"Crema de verduras + sándwich de pavo y queso",
+    items:["1 bol de crema de verduras","Sándwich caliente: 3 rebanadas de pan integral (~90 g) + 60 g de pavo + 40 g de queso tierno","Postre: 1 yogur griego (125 g)"], kcal:"≈ 700 kcal · 38 g proteína"}]}
+];
+const agendaOf = d => d.agenda.filter(a => a.t !== "slot4");
+
+const MUSCLES = {gluteo:"Glúteo mayor", gmedio:"Glúteo medio", isquios:"Isquiotibiales", cuad:"Cuádriceps", espalda:"Espalda", hombro:"Hombro", core:"Core"};
+const vidUrl = q => "https://www.youtube.com/results?search_query=" + encodeURIComponent(q);
+const EX = {
+ A:[
+  {id:"hipthrust", name:"Hip thrust con barra", sets:3, reps:[8,10], rest:150, restTxt:"2–3 min", rir:"1–2", eq:"barra", plus:true, tempo:"1 s arriba · 2 s bajando",
+   prim:["gluteo"], sec:["isquios"], video:"hip thrust con barra técnica correcta",
+   tech:["Siéntate en el suelo con la espalda contra el banco: el borde queda justo bajo los omóplatos.","Coloca la barra en el pliegue de la cadera, con almohadilla.","Pies a la anchura de la cadera. Prueba la posición: arriba, las espinillas deben quedar verticales.","Barbilla un poco hacia el pecho y costillas abajo, como si fueras a hacer un abdominal.","Empuja con los talones hasta tener la cadera extendida, sin arquear la zona lumbar.","Aprieta el glúteo 1 s arriba y baja en 2 s, sin tocar el suelo con los discos entre repeticiones."],
+   errors:["Arquear la zona lumbar arriba en vez de extender la cadera.","Pies demasiado lejos (lo notas en los isquios) o demasiado cerca (lo notas en el cuádriceps).","Echar la cabeza hacia atrás: arrastra la espalda al arco.","Bajar sin control o rebotar."],
+   feel:"Glúteo, sobre todo arriba del todo. Si lo notas en la lumbar, mete costillas y barbilla.",
+   alt:"Hip thrust en máquina o en Smith. Si no hay banco libre, puente de glúteo con barra en el suelo.",
+   why:"Carga mucho el glúteo con poca técnica. Plotkin et al. (2023) vieron crecimiento de glúteo similar con hip thrust y sentadilla en principiantes. Va primero porque el glúteo es tu prioridad.", ev:true},
+  {id:"prensa", name:"Prensa inclinada", sets:3, reps:[10,12], rest:120, restTxt:"2 min", rir:"2", eq:"maquina", tempo:"2 s bajando · subir sin bloquear",
+   prim:["cuad","gluteo"], sec:[], video:"prensa inclinada técnica glúteo pies altos",
+   tech:["Ajusta el respaldo para que la cadera quede bien apoyada.","Pies en la mitad alta de la plataforma, algo más abiertos que la cadera, puntas ligeramente hacia fuera.","Quita los seguros y baja en 2 s llevando las rodillas hacia el pecho, siguiendo la dirección de los pies.","Baja todo lo que puedas sin que la zona lumbar ni el culete se despeguen del respaldo.","Empuja con todo el pie y para justo antes de bloquear las rodillas."],
+   errors:["Bajar tanto que la pelvis se despega del respaldo.","Bloquear las rodillas arriba.","Dejar que las rodillas se vayan hacia dentro.","Empujar solo con las puntas."],
+   feel:"Cuádriceps y glúteo. Nunca en la zona lumbar.",
+   alt:"Sentadilla hack o sentadilla en Smith.",
+   why:"Cuádriceps y glúteo sin exigir técnica, ideal después del baile. Bajar con mucho recorrido trabaja más el glúteo (Kubo et al., 2019).", ev:true},
+  {id:"rumano", name:"Peso muerto rumano", sets:3, reps:[8,10], rest:120, restTxt:"2 min", rir:"2", eq:"barra", tempo:"3 s bajando · subir apretando glúteo",
+   prim:["isquios","gluteo"], sec:[], video:"peso muerto rumano técnica correcta",
+   tech:["De pie con la barra en las manos, agarre a la anchura de los hombros.","Rodillas un poco flexionadas y fijas durante todo el movimiento.","Lleva la cadera hacia atrás, como si cerraras una puerta con el culete.","La barra baja pegada a las piernas y la espalda se mantiene recta.","Para cuando notes estiramiento fuerte en los isquios (normalmente un poco por debajo de las rodillas).","Sube empujando la cadera hacia delante y aprieta el glúteo, sin echarte hacia atrás."],
+   errors:["Redondear la espalda para bajar más.","Separar la barra de las piernas.","Doblar mucho las rodillas: se convierte en otro ejercicio.","Echarte hacia atrás arriba."],
+   feel:"Estiramiento en la parte de atrás del muslo al bajar y glúteo al subir.",
+   alt:"Rumano con mancuernas o en Smith.",
+   why:"Isquios y glúteo en posición estirada. Ya lo dominas, así que puedes progresar rápido.", ev:false},
+  {id:"curl", name:"Curl femoral sentado", sets:2, reps:[10,12], rest:90, restTxt:"90 s", rir:"1–2", eq:"maquina", tempo:"1 s abajo · 2 s volviendo",
+   prim:["isquios"], sec:[], video:"curl femoral sentado técnica",
+   tech:["Ajusta el respaldo para que la rodilla quede alineada con el eje de la máquina.","El rodillo inferior va sobre el tobillo y el superior sujeta los muslos.","Inclina un poco el tronco hacia delante: estira más los isquios.","Flexiona las rodillas hasta el final del recorrido.","Vuelve en 2 s controlando el peso."],
+   errors:["Levantar la cadera del asiento.","Soltar el peso de golpe.","Hacer medio recorrido."],
+   feel:"Parte de atrás del muslo.",
+   alt:"Curl femoral tumbado.",
+   why:"La versión sentada desarrolló más los isquios que la tumbada (Maeo et al., 2021).", ev:true},
+  {id:"jalon", name:"Jalón al pecho", sets:3, reps:[10,12], rest:90, restTxt:"90 s", rir:"2", eq:"maquina", tempo:"1 s abajo · 2 s subiendo",
+   prim:["espalda"], sec:[], video:"jalón al pecho técnica correcta",
+   tech:["Ajusta el rodillo para que sujete bien los muslos.","Agarre algo más ancho que los hombros.","Pecho alto y una ligera inclinación hacia atrás.","Baja la barra a las clavículas llevando los codos hacia abajo y hacia los costados.","Sube controlando hasta estirar los brazos."],
+   errors:["Echarte muy atrás y balancearte.","Tirar con los brazos en vez de con los codos.","Bajar la barra detrás de la nuca."],
+   feel:"Debajo de las axilas y en el lateral de la espalda.",
+   alt:"Jalón con agarre neutro o dominadas asistidas.",
+   why:"Da forma en V a la espalda. Con este volumen se gana definición y postura, no volumen excesivo.", ev:false},
+  {id:"laterales", name:"Elevaciones laterales", sets:2, reps:[12,15], rest:60, restTxt:"60 s", rir:"1–2", eq:"mancuerna", tempo:"1 s arriba · 2 s bajando",
+   prim:["hombro"], sec:[], video:"elevaciones laterales técnica correcta mancuernas",
+   tech:["De pie con una mancuerna ligera en cada mano.","Tronco un poco inclinado hacia delante y codos ligeramente flexionados.","Sube los brazos hacia los lados hasta la altura de los hombros.","Baja en 2 s sin dejar caer las mancuernas."],
+   errors:["Subir los hombros hacia las orejas.","Balancearte para subir más peso.","Subir por encima de los hombros."],
+   feel:"Lateral del hombro.",
+   alt:"Elevaciones laterales en polea, de una en una.",
+   why:"Un hombro algo más redondeado hace que la cintura se vea más fina por proporción.", ev:false},
+  {id:"pallof", name:"Pallof press en polea", sets:2, reps:[10,10], repsTxt:"10 por lado", rest:60, restTxt:"60 s", rir:"Controlado", eq:"core", tempo:"2 s aguantando",
+   prim:["core"], sec:[], video:"pallof press técnica",
+   tech:["Polea a la altura del pecho, con agarre de una mano.","Ponte de lado a la polea, a un paso, con las dos manos en el agarre contra el pecho.","Pies a la anchura de la cadera, rodillas un poco flexionadas y glúteo apretado.","Extiende los brazos hacia delante y aguanta 2 s sin dejar que la polea te gire.","Vuelve al pecho despacio. Haz todas las repeticiones y cambia de lado."],
+   errors:["Dejar que el tronco gire hacia la polea.","Arquear la zona lumbar.","Ir rápido."],
+   feel:"Abdomen y oblicuos, como si te resistieras a girar.",
+   alt:"Pallof press con banda elástica atada a una columna.",
+   why:"Estabilidad del tronco frente a la rotación: útil para giros y cambios de dirección al bailar.", ev:false}
+ ],
+ B:[
+  {id:"goblet", name:"Sentadilla goblet", sets:3, reps:[8,10], rest:120, restTxt:"2 min", rir:"2–3", eq:"mancuerna", tempo:"3 s bajando · subir fuerte",
+   prim:["cuad","gluteo"], sec:[], video:"sentadilla goblet técnica correcta",
+   tech:["Sujeta una mancuerna o kettlebell pegada al pecho, con los codos hacia abajo.","Pies algo más abiertos que la cadera y puntas un poco hacia fuera.","Coge aire, aprieta el abdomen y baja entre las piernas en 3 s.","Baja todo lo que puedas manteniendo la espalda recta y los talones apoyados.","Las rodillas siguen la dirección de los pies.","Sube empujando el suelo con todo el pie.","Cuando muevas unos 20 kg con facilidad, pasa a sentadilla en Smith."],
+   errors:["Levantar los talones.","Dejar que las rodillas se vayan hacia dentro.","Redondear la espalda abajo.","Separar la mancuerna del pecho."],
+   feel:"Cuádriceps y glúteo.",
+   alt:"Sentadilla en Smith o sentadilla a un cajón.",
+   why:"Te enseña el patrón de sentadilla de forma segura. RIR 2–3 porque por la tarde tienes 2 h 30 min de baile.", ev:false},
+  {id:"hiper45", name:"Hiperextensión a 45° para glúteo", sets:3, reps:[12,15], rest:90, restTxt:"90 s", rir:"2", eq:"disco", tempo:"1 s arriba · 2 s bajando",
+   prim:["gluteo"], sec:["isquios"], video:"hiperextensión 45 grados enfocada a glúteo",
+   tech:["Ajusta la almohadilla para que quede bajo la cadera, no en la tripa.","Pies algo abiertos con las puntas hacia fuera.","Redondea un poco la espalda alta, con la barbilla hacia el pecho.","Baja doblando por la cadera y sube apretando el glúteo hasta quedar en línea recta.","Cuando sea fácil, sujeta un disco contra el pecho."],
+   errors:["Pasarte hacia atrás arriba y arquear la lumbar.","Moverte desde la espalda en vez de desde la cadera.","Almohadilla demasiado alta: no te deja doblar la cadera."],
+   feel:"Glúteo. Si lo notas en la lumbar, redondea más la espalda alta y abre más los pies.",
+   alt:"Hip thrust en máquina o pull-through en polea baja.",
+   why:"Trabaja el glúteo estirado y complementa al hip thrust, que lo trabaja contraído.", ev:false},
+  {id:"abduccion", name:"Abducción de cadera en máquina", sets:3, reps:[12,20], rest:90, restTxt:"90 s", rir:"1–2", eq:"maquina", plus:true, tempo:"1 s abierta · 2 s cerrando",
+   prim:["gmedio"], sec:[], video:"abducción de cadera máquina inclinada glúteo",
+   tech:["Siéntate y ajusta la apertura inicial para notar un ligero estiramiento.","Inclina el tronco hacia delante y agárrate a la máquina.","Abre las piernas todo lo que puedas.","Aguanta 1 s y cierra despacio sin que choquen las placas."],
+   errors:["Usar impulso.","Cerrar de golpe.","Hacer recorridos cortos con demasiado peso."],
+   feel:"Parte lateral y alta del glúteo.",
+   alt:"Abducción en polea o caminata lateral con banda.",
+   why:"Va al glúteo medio y la parte alta del glúteo. Su efecto en hipertrofia se apoya sobre todo en estudios de activación (EMG), que son evidencia más débil; lo incluyo por anatomía y por la estabilidad de cadera al bailar.", ev:false},
+  {id:"remo", name:"Remo sentado en polea", sets:3, reps:[10,12], rest:90, restTxt:"90 s", rir:"2", eq:"polea", tempo:"1 s atrás · 2 s volviendo",
+   prim:["espalda"], sec:[], video:"remo sentado en polea técnica correcta",
+   tech:["Agarre neutro (palmas enfrentadas) y pies apoyados con las rodillas un poco flexionadas.","Espalda recta y pecho alto.","Tira llevando los codos hacia la cadera.","Junta los omóplatos al final y aguanta 1 s.","Vuelve estirando los brazos sin encorvarte."],
+   errors:["Balancear el tronco hacia atrás para mover más peso.","Encoger los hombros.","Tirar solo con los brazos."],
+   feel:"Entre los omóplatos y en la espalda media.",
+   alt:"Remo en máquina o remo con mancuerna apoyada en un banco.",
+   why:"Espalda media y postura: espalda definida sin buscar volumen.", ev:false},
+  {id:"facepull", name:"Face pull con cuerda", sets:2, reps:[12,15], rest:60, restTxt:"60 s", rir:"2", eq:"polea", tempo:"1 s atrás · 2 s volviendo",
+   prim:["hombro"], sec:["espalda"], video:"face pull técnica correcta",
+   tech:["Polea a la altura de la cara, con cuerda.","Agarra la cuerda con las palmas hacia abajo y da un paso atrás.","Tira hacia la cara separando las manos.","Codos altos durante todo el movimiento: terminan a la altura de los hombros.","Aguanta 1 s y vuelve despacio."],
+   errors:["Usar demasiado peso y echar el cuerpo atrás.","Codos bajos: se convierte en un remo.","Encoger los hombros."],
+   feel:"Parte de atrás del hombro y entre los omóplatos.",
+   alt:"Pájaros (elevaciones posteriores) con mancuernas.",
+   why:"Deltoides posterior y espalda alta: compensa las horas sentada.", ev:false},
+  {id:"deadbug", name:"Dead bug", sets:2, reps:[8,8], repsTxt:"8 por lado", rest:60, restTxt:"60 s", rir:"Controlado", eq:"core", tempo:"Lento, soltando el aire",
+   prim:["core"], sec:[], video:"dead bug ejercicio técnica",
+   tech:["Túmbate boca arriba con brazos hacia el techo y rodillas a 90°.","Pega la zona lumbar al suelo.","Estira a la vez un brazo hacia atrás y la pierna contraria hacia delante, soltando el aire.","Vuelve y cambia de lado.","Si la lumbar se despega, acorta el recorrido."],
+   errors:["Arquear la lumbar.","Contener la respiración.","Ir rápido."],
+   feel:"Abdomen, sobre todo la parte baja.",
+   alt:"Plancha frontal de 20–30 s.",
+   why:"Estabilidad lumbo-pélvica. Los abdominales no queman la grasa de la tripa (Vispute et al., 2011): la cintura fina depende de tu nivel de grasa y estructura.", ev:true},
+  {id:"plancha", name:"Plancha lateral", sets:2, reps:[20,30], repsTxt:"20–30 s por lado", rest:60, restTxt:"60 s", rir:"Controlado", eq:"core", secs:true, tempo:"Aguantar",
+   prim:["core"], sec:["gmedio"], video:"plancha lateral técnica correcta",
+   tech:["Túmbate de lado, apoyada en el antebrazo, con el codo bajo el hombro.","Pies uno encima del otro (o uno delante del otro si cuesta).","Sube la cadera hasta quedar recta de la cabeza a los pies.","Aguanta respirando normal y cambia de lado."],
+   errors:["Dejar caer la cadera.","Girar el tronco hacia delante o hacia atrás.","Contener la respiración."],
+   feel:"Lateral del abdomen y de la cadera.",
+   alt:"Plancha lateral con las rodillas apoyadas.",
+   why:"Oblicuos y glúteo medio trabajando para sostener la cadera, sin añadir volumen.", ev:false}
+ ]
+};
+
+
+const PLAN_START = new Date(2026, 10, 16);
+const pad = n => String(n).padStart(2,"0");
+const today = () => { const d = new Date(); d.setHours(0,0,0,0); return d; };
+const dayIdx = d => (d.getDay()+6)%7;
+const fmt = (n, dec=1) => n.toLocaleString("es-ES",{maximumFractionDigits:dec});
+function planWeek(){ return Math.floor(Math.round((today() - PLAN_START)/86400000)/7) + 1; }
+function phaseOf(w){
+  if (w < 1) return {mode:"adapt", name:"Antes de empezar", text:"El plan empieza el lunes 16 de noviembre. Las dos primeras semanas son de adaptación."};
+  if (w <= 2) return {mode:"adapt", name:"Adaptación", text:"2 series por ejercicio, dejando 3–4 repeticiones en reserva. Aprende la técnica."};
+  if (w <= 6) return {mode:"prog", name:"Progresión", text:"Series completas y el RIR indicado. Sube peso cuando completes el rango."};
+  if (w === 7) return {mode:"deload", name:"Descarga", text:"Mitad de series, mismo peso, RIR 4."};
+  if (w <= 11) return {mode:"prog2", name:"Progresión 2", text:"+1 serie en hip thrust y abducción si te recuperas bien."};
+  if (w === 12) return {mode:"review", name:"Revisión", text:"Semana suave: una serie menos, RIR 3."};
+  return {mode:"prog", name:"Nuevo bloque", text:"Sigue las indicaciones de tu entrenador para el siguiente bloque."};
+}
+function setsFor(ex, mode){
+  if (mode === "adapt") return Math.min(ex.sets, 2);
+  if (mode === "deload") return Math.ceil(ex.sets/2);
+  if (mode === "review") return Math.max(1, ex.sets-1);
+  if (mode === "prog2" && ex.plus) return ex.sets + 1;
+  return ex.sets;
+}
+function rirFor(ex, mode){
+  if (ex.eq === "core") return "—";
+  return ({adapt:"3–4", deload:"4", review:"3"})[mode] || ex.rir;
+}
+
+/* ============ ILUSTRACIONES DE PLATOS ============ */
+function rng(seed){ return () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+const N = x => x.toFixed(1);
+function scatter(n, cx, cy, R, rnd, f){ let s = ""; for (let i = 0; i < n; i++){ const a = rnd()*6.2832, d = Math.sqrt(rnd())*R; s += f(cx + Math.cos(a)*d, cy + Math.sin(a)*d, Math.round(rnd()*180), i); } return s; }
+const FOOD = {
+  plate:(x,y,r) => `<circle cx="${x}" cy="${y}" r="${r}" fill="var(--plate)" stroke="var(--plate-rim)" stroke-width="2"/><circle cx="${x}" cy="${y}" r="${N(r*.8)}" fill="none" stroke="var(--plate-rim)" stroke-width="1.4"/>`,
+  bowl:(x,y,r) => `<circle cx="${x}" cy="${y}" r="${r}" fill="var(--plate)" stroke="var(--plate-rim)" stroke-width="4"/><circle cx="${x}" cy="${y}" r="${N(r*.86)}" fill="var(--plate-rim)" opacity=".55"/>`,
+  dish:(x,y,w,h) => `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="16" fill="var(--dish)" stroke="var(--dish-s)" stroke-width="3"/>`,
+  board:(x,y,w,h) => `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="18" fill="var(--dish)" stroke="var(--dish-s)" stroke-width="2"/>`,
+  sauce:(x,y,r) => `<circle cx="${x}" cy="${y}" r="${r}" fill="var(--f-tomato)" opacity=".92"/>`,
+  curry:(x,y,r) => `<circle cx="${x}" cy="${y}" r="${r}" fill="var(--f-curry)"/>`,
+  soup:(x,y,r,R) => `<circle cx="${x}" cy="${y}" r="${r}" fill="var(--f-soup)"/>` + scatter(9,x,y,r*.7,R,(a,b) => `<circle cx="${N(a)}" cy="${N(b)}" r="1.6" fill="var(--f-green)"/>`),
+  pasta:(x,y,r,R) => scatter(Math.round(r*1.15),x,y,r*.82,R,(a,b,t) => `<rect x="${N(a-5)}" y="${N(b-2.3)}" width="10" height="4.6" rx="2.3" fill="var(--f-pasta)" stroke="var(--f-pasta-s)" stroke-width=".7" transform="rotate(${t} ${N(a)} ${N(b)})"/>`),
+  maca:(x,y,r,R) => scatter(Math.round(r*1.3),x,y,r*.85,R,(a,b,t) => `<rect x="${N(a-4.5)}" y="${N(b-3)}" width="9" height="6" rx="3" fill="var(--f-pasta)" stroke="var(--f-pasta-s)" stroke-width=".7" transform="rotate(${t} ${N(a)} ${N(b)})"/>`),
+  rice:(x,y,r,R) => scatter(Math.round(r*3.4),x,y,r*.9,R,(a,b,t) => `<ellipse cx="${N(a)}" cy="${N(b)}" rx="2.5" ry="1.3" fill="var(--f-rice)" stroke="var(--f-rice-s)" stroke-width=".5" transform="rotate(${t} ${N(a)} ${N(b)})"/>`),
+  chicken:(x,y,r,R) => [[-.5,-.35],[.35,.05],[-.2,.5]].map(([dx,dy]) => { const a = x+dx*r, b = y+dy*r, t = -25+Math.round(R()*50); return `<g transform="rotate(${t} ${N(a)} ${N(b)})"><rect x="${N(a-12)}" y="${N(b-6)}" width="24" height="12" rx="6" fill="var(--f-chicken)"/><path d="M${N(a-6)} ${N(b-4)}l4 8M${N(a+1)} ${N(b-4)}l4 8" stroke="var(--f-grill)" stroke-width="1.4" stroke-linecap="round" opacity=".7"/></g>`; }).join(""),
+  chickdice:(x,y,r,R) => scatter(9,x,y,r*.8,R,(a,b,t) => `<rect x="${N(a-3.8)}" y="${N(b-3.3)}" width="7.6" height="6.6" rx="1.8" fill="var(--f-chicken)" stroke="var(--f-grill)" stroke-width=".6" transform="rotate(${t} ${N(a)} ${N(b)})"/>`),
+  steak:(x,y,r) => `<g transform="rotate(-12 ${x} ${y})"><ellipse cx="${x}" cy="${y}" rx="${r}" ry="${N(r*.62)}" fill="var(--f-beef)"/><path d="M${N(x-r*.6)} ${N(y-r*.3)}l${N(r*.5)} ${N(r*.6)}M${N(x-r*.15)} ${N(y-r*.42)}l${N(r*.5)} ${N(r*.7)}M${N(x+r*.3)} ${N(y-r*.35)}l${N(r*.4)} ${N(r*.55)}" stroke="#4A2417" stroke-width="2" stroke-linecap="round" opacity=".55"/></g>`,
+  lomo:(x,y,r) => [[-.5,-.3],[.4,-.2],[0,.45]].map(([dx,dy]) => { const a = x+dx*r, b = y+dy*r; return `<ellipse cx="${N(a)}" cy="${N(b)}" rx="11" ry="8" fill="var(--f-pork)" stroke="var(--f-grill)" stroke-width=".8"/><path d="M${N(a-5)} ${N(b-3)}l8 5" stroke="var(--f-grill)" stroke-width="1.4" stroke-linecap="round" opacity=".7"/>`; }).join(""),
+  potato:(x,y,r,R) => scatter(7,x,y,r*.7,R,(a,b,t) => `<ellipse cx="${N(a)}" cy="${N(b)}" rx="8.5" ry="5.5" fill="var(--f-potato)" stroke="var(--f-pasta-s)" stroke-width=".7" transform="rotate(${t} ${N(a)} ${N(b)})"/>`),
+  boniato:(x,y,r,R) => scatter(5,x,y,r*.62,R,(a,b) => `<circle cx="${N(a)}" cy="${N(b)}" r="7.5" fill="var(--f-sweet)"/><circle cx="${N(a)}" cy="${N(b)}" r="4.5" fill="var(--f-sweet2)"/>`),
+  greens:(x,y,r,R) => scatter(Math.round(r*.8),x,y,r*.85,R,(a,b,t,i) => `<ellipse cx="${N(a)}" cy="${N(b)}" rx="5.5" ry="2.7" fill="var(${i%2 ? "--f-green" : "--f-green2"})" transform="rotate(${t} ${N(a)} ${N(b)})"/>`),
+  beans:(x,y,r,R) => scatter(8,x,y,r*.7,R,(a,b,t) => `<line x1="${N(a-8)}" y1="${N(b)}" x2="${N(a+8)}" y2="${N(b)}" stroke="var(--f-green)" stroke-width="3" stroke-linecap="round" transform="rotate(${t} ${N(a)} ${N(b)})"/>`),
+  salad:(x,y,r,R) => FOOD.greens(x,y,r,R) + scatter(3,x,y,r*.6,R,(a,b) => `<circle cx="${N(a)}" cy="${N(b)}" r="3.8" fill="var(--f-tomato)"/>`) + scatter(3,x,y,r*.6,R,(a,b) => `<circle cx="${N(a)}" cy="${N(b)}" r="3.8" fill="var(--f-cucumber)" stroke="var(--f-green)" stroke-width=".9"/>`),
+  lentils:(x,y,r,R) => scatter(Math.round(r*4.2),x,y,r*.92,R,(a,b) => `<circle cx="${N(a)}" cy="${N(b)}" r="1.8" fill="var(--f-lentil)"/>`) + scatter(7,x,y,r*.7,R,(a,b,t) => `<rect x="${N(a-1.8)}" y="${N(b-1.8)}" width="3.6" height="3.6" fill="var(--f-carrot)" transform="rotate(${t} ${N(a)} ${N(b)})"/>`) + scatter(4,x,y,r*.6,R,(a,b) => `<rect x="${N(a-2.5)}" y="${N(b-2.5)}" width="5" height="5" rx="1" fill="var(--f-ham)"/>`),
+  chickpeas:(x,y,r,R) => scatter(Math.round(r*1.35),x,y,r*.9,R,(a,b) => `<circle cx="${N(a)}" cy="${N(b)}" r="3.3" fill="var(--f-chickpea)" stroke="var(--f-chickpea-s)" stroke-width=".7"/>`),
+  peas:(x,y,r,R) => scatter(12,x,y,r*.85,R,(a,b) => `<circle cx="${N(a)}" cy="${N(b)}" r="2.3" fill="var(--f-green2)"/>`) + scatter(10,x,y,r*.85,R,(a,b,t) => `<rect x="${N(a-1.7)}" y="${N(b-1.7)}" width="3.4" height="3.4" fill="var(--f-carrot)" transform="rotate(${t} ${N(a)} ${N(b)})"/>`),
+  ham:(x,y,r,R) => scatter(8,x,y,r*.8,R,(a,b,t) => `<rect x="${N(a-2.6)}" y="${N(b-2.6)}" width="5.2" height="5.2" rx="1" fill="var(--f-ham)" transform="rotate(${t} ${N(a)} ${N(b)})"/>`),
+  cheese:(x,y,r,R) => scatter(7,x,y,r*.75,R,(a,b,t) => `<ellipse cx="${N(a)}" cy="${N(b)}" rx="9" ry="5.5" fill="var(--f-cheese)" opacity=".9" transform="rotate(${t} ${N(a)} ${N(b)})"/>`),
+  pepper:(x,y,r,R) => scatter(6,x,y,r*.7,R,(a,b,t,i) => `<rect x="${N(a-6)}" y="${N(b-1.6)}" width="12" height="3.2" rx="1.6" fill="var(${i%2 ? "--f-pepper" : "--f-green"})" transform="rotate(${t} ${N(a)} ${N(b)})"/>`),
+  pizza:(x,y,r,R) => `<circle cx="${x}" cy="${y}" r="${r}" fill="var(--f-tortilla)" stroke="var(--f-crust)" stroke-width="1.6"/><circle cx="${x}" cy="${y}" r="${r-6}" fill="var(--f-tomato)"/>` + scatter(9,x,y,r*.7,R,(a,b,t) => `<ellipse cx="${N(a)}" cy="${N(b)}" rx="8" ry="5" fill="var(--f-cheese)" transform="rotate(${t} ${N(a)} ${N(b)})"/>`) + scatter(7,x,y,r*.68,R,(a,b,t) => `<rect x="${N(a-3.5)}" y="${N(b-3.5)}" width="7" height="7" rx="1.5" fill="var(--f-ham)" transform="rotate(${t} ${N(a)} ${N(b)})"/>`) + scatter(5,x,y,r*.65,R,(a,b) => `<path d="M${N(a-4)} ${N(b)}a4 3.4 0 0 1 8 0z" fill="var(--f-mush)"/>`),
+  wraps:(x,y) => [-15,15].map(dy => `<g transform="translate(${x} ${y+dy}) rotate(-8)"><rect x="-44" y="-10" width="88" height="20" rx="10" fill="var(--f-tortilla)" stroke="var(--f-crust)" stroke-width=".9"/><path d="M-30 -10v20M-12 -10v20M6 -10v20M24 -10v20" stroke="var(--f-crust)" stroke-width=".6" opacity=".45"/><circle cx="40" cy="0" r="9" fill="var(--f-tortilla)" stroke="var(--f-crust)" stroke-width=".9"/><circle cx="40" cy="0" r="6" fill="var(--f-pork)"/><circle cx="38" cy="-2" r="1.8" fill="var(--f-pepper)"/><circle cx="42" cy="2" r="1.8" fill="var(--f-green)"/><circle cx="41" cy="-3" r="1.6" fill="var(--f-cheese)"/></g>`).join(""),
+  bread:(x,y) => `<rect x="${x-14}" y="${y-12}" width="28" height="24" rx="8" fill="var(--f-crust)"/><rect x="${x-11}" y="${y-9}" width="22" height="19" rx="6" fill="var(--f-crumb)"/>`,
+  toast:(x,y,top) => {
+    const base = `<rect x="${x-24}" y="${y-20}" width="48" height="40" rx="12" fill="var(--f-crust)"/><rect x="${x-20}" y="${y-16}" width="40" height="33" rx="10" fill="var(--f-crumb)"/>`;
+    const t = {
+      pavo:`<ellipse cx="${x-5}" cy="${y-3}" rx="14" ry="9" fill="var(--f-turkey)"/><ellipse cx="${x+6}" cy="${y+5}" rx="13" ry="8" fill="var(--f-turkey)" stroke="#D99A91" stroke-width=".8"/>`,
+      queso:`<rect x="${x-16}" y="${y-12}" width="30" height="24" rx="2" fill="var(--f-queso)" transform="rotate(-6 ${x} ${y})"/>`,
+      jamon:`<path d="M${x-16} ${y-6}q8-8 16 0t16 0" stroke="var(--f-jamon)" stroke-width="7" fill="none" stroke-linecap="round"/><path d="M${x-16} ${y+6}q8-8 16 0t16 0" stroke="var(--f-jamon)" stroke-width="7" fill="none" stroke-linecap="round"/>`,
+      mixto:`<ellipse cx="${x-4}" cy="${y-2}" rx="14" ry="9" fill="var(--f-turkey)"/><rect x="${x-6}" y="${y-2}" width="20" height="14" rx="2" fill="var(--f-queso)"/>`
+    };
+    return base + (t[top] || t.pavo);
+  },
+  sandwich:(x,y,r) => `<path d="M${x-r} ${y-r*.7}L${x+r*.2} ${y-r*.7}L${x-r} ${y+r*.6}Z" fill="var(--f-crumb)" stroke="var(--f-crust)" stroke-width="3" stroke-linejoin="round"/><path d="M${x+r} ${y+r*.7}L${x-r*.2} ${y+r*.7}L${x+r} ${y-r*.6}Z" fill="var(--f-crumb)" stroke="var(--f-crust)" stroke-width="3" stroke-linejoin="round"/><path d="M${x-r*.8} ${y-r*.45}L${x-r*.1} ${y-r*.45}" stroke="var(--f-turkey)" stroke-width="3"/><path d="M${x+r*.8} ${y+r*.45}L${x+r*.1} ${y+r*.45}" stroke="var(--f-queso)" stroke-width="3"/>`,
+  sandwichJQ:(x,y) => `<g transform="rotate(-8 ${x} ${y})"><rect x="${x-34}" y="${y-22}" width="68" height="44" rx="12" fill="var(--f-crust)"/><rect x="${x-30}" y="${y-18}" width="60" height="36" rx="10" fill="var(--f-crumb)"/><path d="M${x-30} ${y+14}q10-6 20 0t20 0t20 0" stroke="var(--f-jamon)" stroke-width="5" fill="none"/><path d="M${x-28} ${y+18}h56" stroke="var(--f-queso)" stroke-width="3"/></g>`,
+  yogurt:(x,y,r) => `<circle cx="${x}" cy="${y}" r="${r}" fill="var(--plate)" stroke="var(--plate-rim)" stroke-width="2.5"/><circle cx="${x}" cy="${y}" r="${N(r*.78)}" fill="var(--f-yogurt)" stroke="var(--plate-rim)" stroke-width=".8"/><path d="M${N(x-r*.35)} ${N(y-r*.1)}q${N(r*.35)} ${N(-r*.35)} ${N(r*.7)} 0" stroke="var(--plate-rim)" stroke-width="1.2" fill="none"/>`,
+  orange:(x,y,r) => `<circle cx="${x}" cy="${y}" r="${r}" fill="var(--f-orange)"/>` + [0,60,120].map(a => `<line x1="${N(x-Math.cos(a*Math.PI/180)*r*.8)}" y1="${N(y-Math.sin(a*Math.PI/180)*r*.8)}" x2="${N(x+Math.cos(a*Math.PI/180)*r*.8)}" y2="${N(y+Math.sin(a*Math.PI/180)*r*.8)}" stroke="#FFFFFF" stroke-opacity=".45" stroke-width="1.2"/>`).join(""),
+  kiwi:(x,y,r) => `<circle cx="${x}" cy="${y}" r="${r}" fill="var(--f-kiwi-s)"/><circle cx="${x}" cy="${y}" r="${N(r*.85)}" fill="var(--f-kiwi)"/><circle cx="${x}" cy="${y}" r="${N(r*.3)}" fill="#F4F1D8"/>` + Array.from({length:10}, (_,i) => { const a = i/10*6.2832; return `<circle cx="${N(x+Math.cos(a)*r*.5)}" cy="${N(y+Math.sin(a)*r*.5)}" r="1" fill="#2A2018"/>`; }).join(""),
+  pear:(x,y,r) => `<circle cx="${x}" cy="${y+3}" r="${r}" fill="var(--f-pear)"/><circle cx="${x}" cy="${N(y-r*.55)}" r="${N(r*.68)}" fill="var(--f-pear)"/><path d="M${x} ${N(y-r*1.2)}l2 -6" stroke="var(--f-kiwi-s)" stroke-width="2" stroke-linecap="round"/>`,
+  banana:(x,y,r) => `<path d="M${x-r} ${y-r*.2}Q${x} ${y+r*.9} ${x+r} ${y-r*.2}" stroke="var(--f-banana)" stroke-width="${N(r*.42)}" fill="none" stroke-linecap="round"/><path d="M${x-r*.9} ${y-r*.05}Q${x} ${y+r*.75} ${x+r*.9} ${y-r*.05}" stroke="#D9AE2A" stroke-width="1.5" fill="none" opacity=".6"/><circle cx="${x+r}" cy="${N(y-r*.2)}" r="3" fill="var(--f-kiwi-s)"/>`,
+  coffee:(x,y,r) => `<rect x="${x+r-4}" y="${y-6}" width="18" height="12" rx="6" fill="none" stroke="var(--plate-rim)" stroke-width="5"/><circle cx="${x}" cy="${y}" r="${r}" fill="var(--plate)" stroke="var(--plate-rim)" stroke-width="2.5"/><circle cx="${x}" cy="${y}" r="${N(r*.74)}" fill="var(--f-coffee)"/><ellipse cx="${x-3}" cy="${y-2}" rx="${N(r*.4)}" ry="${N(r*.28)}" fill="var(--f-froth)" opacity=".85"/>`,
+  thighs:(x,y,r) => [[-.45,-.1],[.45,.2]].map(([dx,dy]) => `<ellipse cx="${N(x+dx*r)}" cy="${N(y+dy*r)}" rx="${N(r*.55)}" ry="${N(r*.4)}" fill="var(--f-thigh)" transform="rotate(${dx > 0 ? 18 : -14} ${N(x+dx*r)} ${N(y+dy*r)})"/><ellipse cx="${N(x+dx*r-3)}" cy="${N(y+dy*r-3)}" rx="${N(r*.3)}" ry="${N(r*.16)}" fill="#E1AE73" opacity=".7"/>`).join(""),
+  out:(x,y) => FOOD.plate(x,y,52) + `<path d="M${x-78} ${y-40}v80M${x-84} ${y-40}v18a6 6 0 0 0 12 0v-18" stroke="var(--equip)" stroke-width="3" fill="none" stroke-linecap="round"/><rect x="${x+72}" y="${y-40}" width="9" height="80" rx="4.5" fill="var(--equip)"/><path d="M${x} ${y-16}l4.7 9.6 10.6 1.5-7.7 7.5 1.8 10.5-9.4-5-9.4 5 1.8-10.5-7.7-7.5 10.6-1.5z" fill="var(--f-pasta)"/>`
+};
+const SCENES = {
+  "lun/almuerzo":[["plate",96,75,62],["sauce",92,80,34],["pasta",92,80,38],["chickdice",124,58,16],["greens",70,106,14],["bread",186,40],["orange",186,108,14]],
+  "lun/cena":[["plate",96,75,62],["wraps",92,72],["pepper",76,112,10],["yogurt",186,98,24]],
+  "mar/almuerzo":[["bowl",96,75,58],["lentils",96,75,48],["bread",186,40],["orange",176,108,11],["orange",200,100,10]],
+  "mar/cena":[["plate",96,75,62],["chicken",76,60,20],["potato",122,64,22],["salad",98,106,22],["bread",186,40],["yogurt",186,104,22]],
+  "mie/almuerzo":[["plate",96,75,62],["rice",96,75,46],["peas",96,75,40],["ham",96,75,36],["chickdice",96,75,34],["kiwi",180,104,13],["kiwi",202,92,12]],
+  "mie/cena":[["plate",96,75,62],["lomo",76,60,22],["boniato",122,72,24],["beans",86,106,18],["bread",186,40],["yogurt",186,104,22]],
+  "jue/almuerzo":[["bowl",96,75,58],["chickpeas",96,75,46],["greens",96,75,42],["chickdice",96,75,30],["bread",186,40],["pear",186,108,12]],
+  "jue/cena":[["plate",96,75,62],["steak",80,62,25],["potato",124,68,20],["salad",100,108,20],["bread",186,40],["yogurt",186,104,22]],
+  "vie/almuerzo":[["dish",22,22,150,106],["maca",97,75,54],["cheese",97,75,46],["orange",194,104,14]],
+  "vie/prebaile":[["banana",110,72,46]],
+  "vie/cena":[["plate",96,75,62],["rice",74,70,28],["curry",122,74,25],["chickdice",122,74,19],["yogurt",186,98,24]],
+  "sab/almuerzo":[["out",110,75]],
+  "sab/cena":[["board",24,14,162,122],["pizza",105,75,54],["salad",200,110,14]],
+  "dom/almuerzo":[["dish",20,22,156,106],["thighs",78,64,30],["potato",130,72,28],["pepper",100,106,20],["orange",198,104,13]],
+  "dom/cena":[["bowl",64,75,46],["soup",64,75,38],["plate",156,78,48],["sandwich",156,78,30],["yogurt",204,26,14]]
+};
+function breakfastScene(m){
+  const txt = m.items.join(" ").toLowerCase();
+  if (txt.includes("sándwich: 2 lonchas de jamón")) return [["coffee",44,74,28],["plate",146,75,60],["sandwichJQ",146,75]];
+  const top = txt.includes("pavo") && txt.includes("queso") ? "mixto" : txt.includes("pavo") ? "pavo" : txt.includes("jamón") ? "jamon" : "queso";
+  return [["coffee",44,74,28],["plate",146,75,60],["toast",128,64,top],["toast",164,88,top]];
+}
+function dishSVG(dayKey, m, label){
+  const ops = m.id === "desayuno" ? breakfastScene(m) : (SCENES[`${dayKey}/${m.id}`] || [["plate",110,75,60]]);
+  let seed = 0; for (const c of dayKey + m.id) seed = (seed*31 + c.charCodeAt(0)) | 0;
+  const R = rng(seed);
+  const body = ops.map(([k, ...a]) => FOOD[k] ? FOOD[k](...a, R) : "").join("");
+  return `<svg viewBox="0 0 220 150" role="img" aria-label="${label}">${body}</svg>`;
+}
+
+/* ============ FIGURAS ANIMADAS DE EJERCICIOS ============ */
+/* Cada ejercicio: vista lateral (side) o frontal (front); c = puntos comunes, a = inicio, b = final */
+const POSES = {
+  hipthrust:{view:"side", a:{head:[46,96],shoulder:[60,104],elbow:[72,116],hand:[90,130],hip:[90,136],knee:[128,112],ankle:[132,150]},
+    b:{head:[42,94],shoulder:[56,102],elbow:[80,104],hand:[100,100],hip:[100,106],knee:[140,108],ankle:[138,150]},
+    props:[{k:"rect",x:18,y:106,w:50,h:9},{k:"line",x1:26,y1:115,x2:26,y2:150,w:4},{k:"line",x1:60,y1:115,x2:60,y2:150,w:4},{k:"plate",at:"hip",dy:-12,r:15}],
+    focus:["hip"], labels:["Abajo, sin tocar el suelo","Arriba: aprieta el glúteo 1 s"]},
+  prensa:{view:"side", c:{head:[38,78],shoulder:[46,92],elbow:[60,124],hand:[78,136],hip:[72,130]},
+    a:{knee:[92,94],ankle:[124,110]}, b:{knee:[105,108],ankle:[138,86]},
+    props:[{k:"line",x1:34,y1:74,x2:64,y2:134,w:9},{k:"line",x1:60,y1:138,x2:98,y2:138,w:7},{k:"line",x1:110,y1:150,x2:206,y2:78,w:4},{k:"platform",at:"ankle",d:[.8,-.6],len:40,off:7}],
+    focus:["hip>knee","hip"], labels:["Abajo, controlando 2 s","Arriba sin bloquear rodillas"]},
+  rumano:{view:"side", a:{head:[100,14],shoulder:[100,30],elbow:[102,54],hand:[104,80],hip:[100,74],knee:[102,112],ankle:[100,150]},
+    b:{head:[140,52],shoulder:[124,58],elbow:[124,84],hand:[124,110],hip:[80,76],knee:[96,113],ankle:[100,150]},
+    props:[{k:"plate",at:"hand",dy:4,r:14}], focus:["hip>knee","hip"], labels:["De pie, barra pegada","Cadera atrás, espalda recta"]},
+  curl:{view:"side", c:{head:[104,46],shoulder:[100,60],elbow:[94,84],hand:[108,100],hip:[90,104],knee:[130,104]},
+    a:{ankle:[166,98]}, b:{ankle:[122,142]},
+    props:[{k:"rect",x:68,y:108,w:68,h:8},{k:"rect",x:76,y:54,w:8,h:52},{k:"rect",x:112,y:89,w:28,h:7},{k:"line",x1:100,y1:116,x2:100,y2:150,w:5},{k:"dot",x:130,y:104,r:4},{k:"pad",at:"ankle",dy:-8,r:6}],
+    focus:["hip>knee"], labels:["Pierna estirada","Rodilla doblada a tope"]},
+  jalon:{view:"side", c:{head:[92,52],shoulder:[94,66],hip:[100,110],knee:[138,112],ankle:[140,150]},
+    a:{elbow:[100,40],hand:[104,14]}, b:{elbow:[86,92],hand:[102,70]},
+    props:[{k:"rect",x:78,y:112,w:46,h:8},{k:"line",x1:100,y1:120,x2:100,y2:150,w:5},{k:"rect",x:122,y:100,w:22,h:8},{k:"cable",from:[104,-2],at:"hand"},{k:"pad",at:"hand",r:4}],
+    focus:["shoulder>hip"], labels:["Brazos arriba","Barra a las clavículas"]},
+  laterales:{view:"front", c:{head:[120,14],neck:[120,30],hip:[120,74],sL:[106,34],sR:[134,34],hipL:[112,76],kL:[110,112],aL:[110,150],hipR:[128,76],kR:[130,112],aR:[130,150]},
+    a:{eL:[104,60],hL:[104,84],eR:[136,60],hR:[136,84]}, b:{eL:[82,38],hL:[58,42],eR:[158,38],hR:[182,42]},
+    props:[{k:"db",at:"hL"},{k:"db",at:"hR"}], focus:["sL","sR"], labels:["Brazos abajo","A la altura de los hombros"]},
+  pallof:{view:"front", c:{head:[120,14],neck:[120,30],hip:[120,74],sL:[106,34],sR:[134,34],hipL:[112,76],kL:[106,112],aL:[104,150],hipR:[128,76],kR:[134,112],aR:[136,150]},
+    a:{eL:[104,58],hL:[117,50],eR:[136,58],hR:[123,50]}, b:{eL:[113,46],hL:[119,42],eR:[127,46],hR:[121,42]},
+    props:[{k:"rect",x:6,y:8,w:9,h:142},{k:"cable",from:[15,46],at:"hL"},{k:"pad",at:"hL",r:5}],
+    focus:["neck>hip"], labels:["Agarre pegado al pecho","Brazos estirados: no dejes que te gire"]},
+  goblet:{view:"side", a:{head:[112,14],shoulder:[110,30],elbow:[116,52],hand:[124,40],hip:[110,74],knee:[112,112],ankle:[110,150]},
+    b:{head:[116,62],shoulder:[110,76],elbow:[116,98],hand:[124,86],hip:[92,118],knee:[132,116],ankle:[112,150]},
+    props:[{k:"kb",at:"hand"}], focus:["hip>knee","hip"], labels:["De pie","Abajo, talones apoyados"]},
+  hiper45:{view:"side", c:{ankle:[60,140],knee:[82,112],hip:[104,86]},
+    a:{shoulder:[118,128],head:[124,143],elbow:[112,112],hand:[118,120]}, b:{shoulder:[133,51],head:[141,38],elbow:[120,70],hand:[128,62]},
+    props:[{k:"line",x1:40,y1:150,x2:112,y2:96,w:6},{k:"line",x1:50,y1:146,x2:74,y2:146,w:5},{k:"dot",x:110,y:92,r:8}],
+    focus:["hip"], labels:["Abajo, doblando la cadera","Cuerpo en línea recta"]},
+  abduccion:{view:"front", c:{head:[120,36],neck:[120,50],hip:[120,98],sL:[106,54],sR:[134,54],eL:[100,76],hL:[104,96],eR:[140,76],hR:[136,96],hipL:[112,100],hipR:[128,100]},
+    a:{kL:[114,112],aL:[114,148],kR:[126,112],aR:[126,148]}, b:{kL:[94,112],aL:[100,148],kR:[146,112],aR:[140,148]},
+    props:[{k:"rect",x:94,y:102,w:52,h:8},{k:"pad",at:"kL",dx:-7,r:6},{k:"pad",at:"kR",dx:7,r:6}],
+    focus:[["hipL",-8,0],["hipR",8,0]], labels:["Rodillas juntas","Abre todo lo que puedas"]},
+  remo:{view:"side", c:{head:[102,58],shoulder:[100,72],hip:[100,118],knee:[130,104],ankle:[158,124]},
+    a:{elbow:[126,76],hand:[150,80]}, b:{elbow:[78,86],hand:[102,94]},
+    props:[{k:"rect",x:78,y:120,w:46,h:8},{k:"line",x1:166,y1:108,x2:168,y2:142,w:5},{k:"cable",from:[212,96],at:"hand"},{k:"pad",at:"hand",r:4}],
+    focus:["shoulder>hip"], labels:["Brazos estirados","Codos atrás, junta omóplatos"]},
+  facepull:{view:"side", c:{head:[112,16],shoulder:[110,32],hip:[108,76],knee:[116,112],ankle:[120,150],k2:[100,112],a2:[94,150]},
+    a:{elbow:[134,30],hand:[158,26]}, b:{elbow:[90,26],hand:[114,18]},
+    props:[{k:"cable",from:[214,22],at:"hand"},{k:"pad",at:"hand",r:4}], focus:["shoulder"], labels:["Brazos estirados","Manos a la cara, codos altos"]},
+  deadbug:{view:"side", c:{head:[50,138],shoulder:[66,140],hip:[110,140],e2:[68,114],h2:[70,88],k2:[112,100],a2:[146,100]},
+    a:{elbow:[68,114],hand:[70,88],knee:[112,100],ankle:[146,100],toe:[146,90]}, b:{elbow:[42,136],hand:[16,134],knee:[150,134],ankle:[188,130],toe:[196,122]},
+    props:[], focus:["shoulder>hip"], labels:["Brazos y piernas arriba","Estira brazo y pierna contrarios"]},
+  plancha:{view:"side", c:{head:[48,110],shoulder:[60,122],elbow:[60,148],hand:[86,148],ankle:[186,148],toe:[192,140],e2:[86,112],h2:[104,128]},
+    a:{hip:[104,142],knee:[144,146]}, b:{hip:[105,131],knee:[144,139]},
+    props:[], focus:["shoulder>hip"], labels:["Sube la cadera","Línea recta y aguanta"]}
+};
+const SIDE = [["shoulder","hip",10],["hip","knee",8.5],["knee","ankle",7],["ankle","toe",5],["shoulder","elbow",6.5],["elbow","hand",6],["shoulder","head",6]];
+const FRONT = [["neck","hip",11],["sL","sR",7],["sL","eL",6.5],["eL","hL",6],["sR","eR",6.5],["eR","hR",6],["hipL","hipR",8],["hipL","kL",8.5],["kL","aL",7],["hipR","kR",8.5],["kR","aR",7],["aL","fL",5],["aR","fR",5],["neck","head",6]];
+const lerp = (p,q,t) => [p[0]+(q[0]-p[0])*t, p[1]+(q[1]-p[1])*t];
+function poseAt(F, t){
+  const o = {}, c = F.c || {};
+  new Set([...Object.keys(c), ...Object.keys(F.a), ...Object.keys(F.b)]).forEach(k => {
+    const a = F.a[k] || c[k], b = F.b[k] || c[k]; o[k] = lerp(a, b, t);
+  });
+  if (F.view === "side" && !o.toe && o.ankle) o.toe = [o.ankle[0]+9, o.ankle[1]];
+  if (F.view === "front") { o.fL = [o.aL[0]-7, o.aL[1]]; o.fR = [o.aR[0]+7, o.aR[1]]; }
+  return o;
+}
+function pt(P, spec){
+  if (Array.isArray(spec)) { const p = pt(P, spec[0]); return [p[0]+spec[1], p[1]+spec[2]]; }
+  if (spec.includes(">")) { const [a,b] = spec.split(">"); return lerp(P[a], P[b], .5); }
+  return P[spec];
+}
+function seg(P, a, b, w, col){ if (!P[a] || !P[b]) return ""; return `<line x1="${N(P[a][0])}" y1="${N(P[a][1])}" x2="${N(P[b][0])}" y2="${N(P[b][1])}" stroke="${col}" stroke-width="${w}" stroke-linecap="round"/>`; }
+function drawFig(F, P){
+  let s = `<line x1="4" y1="151" x2="236" y2="151" stroke="var(--equip-soft)" stroke-width="2"/>`;
+  F.props.forEach(p => {
+    if (p.k === "rect") s += `<rect x="${p.x}" y="${p.y}" width="${p.w}" height="${p.h}" rx="3" fill="var(--equip)"/>`;
+    else if (p.k === "line") s += `<line x1="${p.x1}" y1="${p.y1}" x2="${p.x2}" y2="${p.y2}" stroke="var(--equip)" stroke-width="${p.w}" stroke-linecap="round"/>`;
+    else if (p.k === "dot") s += `<circle cx="${p.x}" cy="${p.y}" r="${p.r}" fill="var(--equip)"/>`;
+    else if (p.k === "cable") { const h = P[p.at]; s += `<circle cx="${p.from[0]}" cy="${p.from[1]}" r="5" fill="var(--equip)"/><line x1="${p.from[0]}" y1="${p.from[1]}" x2="${N(h[0])}" y2="${N(h[1])}" stroke="var(--equip)" stroke-width="1.6"/>`; }
+  });
+  (F.focus || []).forEach(f => { const q = pt(P, f); s += `<circle cx="${N(q[0])}" cy="${N(q[1])}" r="13" fill="var(--focus)" opacity=".28"/><circle cx="${N(q[0])}" cy="${N(q[1])}" r="7" fill="var(--focus)" opacity=".35"/>`; });
+  if (F.view === "side") {
+    s += seg(P,"shoulder","e2",6,"var(--fig-far)") + seg(P,"e2","h2",5.5,"var(--fig-far)") + seg(P,"hip","k2",7.5,"var(--fig-far)") + seg(P,"k2","a2",6.5,"var(--fig-far)");
+    SIDE.forEach(([a,b,w]) => s += seg(P,a,b,w,"var(--fig)"));
+  } else FRONT.forEach(([a,b,w]) => s += seg(P,a,b,w,"var(--fig)"));
+  s += `<circle cx="${N(P.head[0])}" cy="${N(P.head[1])}" r="9" fill="var(--fig)"/>`;
+  F.props.forEach(p => {
+    const h = p.at ? P[p.at] : null; if (!h) return;
+    const x = h[0] + (p.dx || 0), y = h[1] + (p.dy || 0);
+    if (p.k === "plate") s += `<circle cx="${N(x)}" cy="${N(y)}" r="${p.r}" fill="var(--equip)" stroke="var(--fig)" stroke-width="1.5"/><circle cx="${N(x)}" cy="${N(y)}" r="3" fill="var(--fig)"/>`;
+    else if (p.k === "pad") s += `<circle cx="${N(x)}" cy="${N(y)}" r="${p.r}" fill="var(--equip)" stroke="var(--fig)" stroke-width="1"/>`;
+    else if (p.k === "db") s += `<rect x="${N(x-2)}" y="${N(y-8)}" width="4" height="16" fill="var(--fig)"/><rect x="${N(x-5)}" y="${N(y-11)}" width="10" height="6" rx="2" fill="var(--equip)" stroke="var(--fig)" stroke-width="1"/><rect x="${N(x-5)}" y="${N(y+5)}" width="10" height="6" rx="2" fill="var(--equip)" stroke="var(--fig)" stroke-width="1"/>`;
+    else if (p.k === "kb") s += `<path d="M${N(x-5)} ${N(y-2)}a5 5 0 0 1 10 0" stroke="var(--fig)" stroke-width="2.5" fill="none"/><circle cx="${N(x)}" cy="${N(y+7)}" r="9" fill="var(--equip)" stroke="var(--fig)" stroke-width="1.5"/>`;
+    else if (p.k === "platform") { const c = [x + p.d[0]*p.off, y + p.d[1]*p.off], q = [-p.d[1], p.d[0]]; s += `<line x1="${N(c[0]-q[0]*p.len/2)}" y1="${N(c[1]-q[1]*p.len/2)}" x2="${N(c[0]+q[0]*p.len/2)}" y2="${N(c[1]+q[1]*p.len/2)}" stroke="var(--equip)" stroke-width="7" stroke-linecap="round"/>`; }
+  });
+  return s;
+}
+function figSVG(id, t){ const F = POSES[id]; return `<svg class="fig" data-ex="${id}" viewBox="0 0 240 160" role="img" aria-label="Movimiento: ${F.labels[0]} → ${F.labels[1]}">${drawFig(F, poseAt(F, t))}</svg>`; }
+
+/* Animación: subida 0,9 s, pausa, bajada lenta 1,3 s (excéntrica), pausa */
+const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const ANIM = { on: !reduceMotion, t0: performance.now(), raf: 0, still: {} };
+const ease = x => .5 - Math.cos(Math.PI * x)/2;
+function cycle(p){ if (p < .12) return 0; if (p < .38) return ease((p-.12)/.26); if (p < .52) return 1; if (p < .9) return 1 - ease((p-.52)/.38); return 0; }
+function tick(now){
+  if (!ANIM.on) { ANIM.raf = 0; return; }
+  const t = cycle(((now - ANIM.t0)/3600) % 1);
+  document.querySelectorAll("svg.fig").forEach(svg => {
+    const F = POSES[svg.dataset.ex]; if (!F) return;
+    const r = svg.getBoundingClientRect(); if (r.bottom < 0 || r.top > innerHeight) return;
+    svg.innerHTML = drawFig(F, poseAt(F, t));
+    const lab = document.getElementById("ph-" + svg.dataset.ex), txt = F.labels[t < .5 ? 0 : 1];
+    if (lab && lab.textContent !== txt) lab.textContent = txt;
+  });
+  ANIM.raf = requestAnimationFrame(tick);
+}
+function startAnim(){ if (!ANIM.raf && ANIM.on) ANIM.raf = requestAnimationFrame(tick); }
+
+/* ============ VISTAS ============ */
+const UI = { day: dayIdx(today()), ses: dayIdx(today()) === 4 || (dayIdx(today()) >= 1 && dayIdx(today()) <= 3) ? "B" : "A" };
+const VIEWS = ["comidas","ejercicios"];
+const view = () => VIEWS.includes(location.hash.slice(1)) ? location.hash.slice(1) : "comidas";
+const MEAL_LABEL = {desayuno:"Desayuno", almuerzo:"Almuerzo", cena:"Cena", prebaile:"Extra"};
+
+function viewComidas(){
+  const d = DAYS[UI.day], ag = agendaOf(d);
+  return `<div class="stack-lg">
+    <div class="stack" style="gap:8px"><div class="eyebrow">Tu menú</div><h2>3 comidas al día</h2>
+      <p class="lead">Cantidades en medidas caseras, con los gramos entre paréntesis. No hace falta pesar nada.</p></div>
+    <div class="seg" role="group" aria-label="Día de la semana">${DAYS.map((x,i) => `<button data-action="day" data-i="${i}" aria-pressed="${i === UI.day}">${x.name.slice(0,3)}</button>`).join("")}</div>
+    <section class="dayhead">
+      <div class="stack" style="gap:8px"><h2>${d.name}</h2><div class="row">${d.tags.map(t => `<span class="pill ${t}">${t === "baile" ? "Baile" : t === "gym" ? "Gimnasio "+d.gym : "Descanso"}</span>`).join("")}</div></div>
+      <div class="kcal-big"><b class="num">≈ ${fmt(d.kcal,0)}</b><span>kcal del día</span></div>
+    </section>
+    <p class="small muted">${d.tip}</p>
+    <div class="timeline">
+      ${ag.map(a => a.t === "act" ? (a.kind === "rest" ? "" : `<div class="act ${a.kind}"><time>${a.time}</time><span><b>${a.title}</b> · ${a.sum}</span></div>`)
+        : `<article class="card meal">
+            <div class="art">${dishSVG(d.key, a, "Ilustración: " + a.title)}</div>
+            <div class="txt">
+              <div class="when"><time>${a.time}</time><span class="eyebrow">${MEAL_LABEL[a.id] || ""}</span></div>
+              <h3>${a.title}</h3>
+              <ul>${a.items.map(i => `<li>${i}</li>`).join("")}</ul>
+              <span class="kc">${a.kcal}</span>
+            </div>
+          </article>`).join("")}
+    </div>
+    <section class="card stack">
+      <details class="more"><summary>Medidas caseras</summary>
+        <div class="tbl-wrap"><table><tbody>
+          <tr><td>1 palma de tu mano de carne cruda</td><td>110–130 g</td></tr>
+          <tr><td>1 palma grande</td><td>~150 g</td></tr>
+          <tr><td>1 puño de arroz o pasta cocidos</td><td>~120 g cocido (≈ 40 g crudo)</td></tr>
+          <tr><td>1 cucharada sopera de aceite</td><td>10 g</td></tr>
+          <tr><td>1 cucharadita de aceite</td><td>5 g</td></tr>
+          <tr><td>1 patata grande</td><td>~250 g</td></tr>
+        </tbody></table></div>
+      </details>
+      <details class="more"><summary>Si quieres cambiar algo</summary>
+        <div class="tbl-wrap"><table><tbody>
+          <tr><td><b>Proteína</b></td><td>Pollo ↔ pavo, lomo, filete de ternera o contramuslo sin piel, en la misma cantidad.</td></tr>
+          <tr><td><b>Hidratos</b></td><td>100 g de arroz o pasta ↔ 375 g de patata o boniato ↔ 150 g de pan.</td></tr>
+          <tr><td><b>Fruta</b></td><td>Cualquiera menos manzana: naranja, 2 mandarinas, 2 kiwis, pera, plátano o fresas.</td></tr>
+          <tr><td><b>Postre lácteo</b></td><td>Yogur griego ↔ 200 ml de leche ↔ 2 lonchas de queso tierno.</td></tr>
+        </tbody></table></div>
+      </details>
+      <details class="more"><summary>Días con poco tiempo</summary>
+        <ul class="errs" style="list-style:disc"><li>Pollo asado + 2 vasitos de arroz de microondas + tomate con aceite.</li><li>Bote de garbanzos o lentejas salteado 5 min con jamón.</li><li>Wrap de tortilla con pollo asado, lechuga, tomate y mozzarella.</li><li>Si no te entra la cena: un vaso grande de leche + 2 tostadas con pavo.</li></ul>
+      </details>
+    </section>
+  </div>`;
+}
+function chipsOf(ex){ return ex.prim.map(m => `<span class="mchip">${MUSCLES[m]}</span>`).join("") + (ex.sec || []).map(m => `<span class="mchip soft">${MUSCLES[m]}</span>`).join(""); }
+function viewEjercicios(){
+  const g = UI.ses, list = EX[g], ph = phaseOf(planWeek());
+  return `<div class="stack-lg">
+    <div class="stack" style="gap:8px"><div class="eyebrow">Tu rutina · 2 días por semana</div><h2>Ejercicios</h2>
+      <p class="lead">Mira cómo se mueve cada ejercicio y lee la técnica antes de cargar peso. La zona rosa es el músculo que más tiene que trabajar.</p></div>
+    <div class="row between">
+      <div class="seg" role="group" aria-label="Sesión"><button data-action="ses" data-s="A" aria-pressed="${g === "A"}">Día A · lunes</button><button data-action="ses" data-s="B" aria-pressed="${g === "B"}">Día B · viernes</button></div>
+      <button class="btn" data-action="anim" aria-pressed="${!ANIM.on}">${ANIM.on ? "Pausar animaciones" : "Reproducir animaciones"}</button>
+    </div>
+    <section class="session">
+      <div class="eyebrow">${g === "A" ? "Lunes 20:30 · después del baile" : "Viernes 10:00 · antes del baile"}</div>
+      <h3 style="font-size:1.35rem">${g === "A" ? "Fuerza de glúteo e isquios" : "Glúteo medio, espalda y core"}</h3>
+      <p class="small" style="opacity:.85">${g === "A" ? "Vienes del baile: salta el calentamiento general y haz 1–2 series ligeras de aproximación en los primeros ejercicios." : "Calentamiento: 5 min de bici + 15 puentes de glúteo con banda. Intensidad algo menor porque por la tarde bailas 2 h 30 min."}</p>
+    </section>
+    <div class="phase"><b>${ph.name}.</b> <span>${ph.text} Las series de cada ejercicio ya están ajustadas.</span></div>
+    <div class="legend"><span><i></i>Músculo principal</span><span>Figura gris clara: el otro brazo o pierna</span></div>
+    <div class="stack">
+    ${list.map((ex, i) => {
+      const n = setsFor(ex, ph.mode), F = POSES[ex.id], still = ANIM.still[ex.id] ?? 0;
+      return `<article class="card ex">
+        <div class="stage">
+          ${figSVG(ex.id, ANIM.on ? 0 : still)}
+          <div class="ph" id="ph-${ex.id}">${F.labels[ANIM.on ? 0 : (still > .5 ? 1 : 0)]}</div>
+          ${ANIM.on ? "" : `<div class="poses"><button class="btn" data-action="still" data-id="${ex.id}" data-t="0" aria-pressed="${still < .5}">Inicio</button><button class="btn" data-action="still" data-id="${ex.id}" data-t="1" aria-pressed="${still > .5}">Final</button></div>`}
+        </div>
+        <div class="body">
+          <div class="row" style="flex-wrap:nowrap;align-items:flex-start"><div class="ex-n">${i+1}</div><div class="stack" style="gap:6px;min-width:0"><h3>${ex.name}</h3><div class="chips">${chipsOf(ex)}</div></div></div>
+          <div class="presc">
+            <div><span>Series</span><b>${n}</b></div>
+            <div><span>${ex.secs ? "Tiempo" : "Reps"}</span><b>${ex.repsTxt || ex.reps[0]+"–"+ex.reps[1]}</b></div>
+            <div><span>Descanso</span><b>${ex.restTxt}</b></div>
+            <div><span>RIR</span><b>${rirFor(ex, ph.mode)}</b></div>
+          </div>
+          <p class="small muted"><b>Ritmo:</b> ${ex.tempo}</p>
+          <p class="feel"><b>Dónde lo tienes que notar:</b> ${ex.feel}</p>
+          <details class="more" open><summary>Técnica paso a paso</summary><ol class="steps">${ex.tech.map(t => `<li>${t}</li>`).join("")}</ol></details>
+          <details class="more"><summary>Errores comunes</summary><ul class="errs">${ex.errors.map(t => `<li>${t}</li>`).join("")}</ul></details>
+          <details class="more"><summary>Si la máquina está ocupada</summary><p class="small">${ex.alt}</p></details>
+          <details class="more"><summary>Por qué este ejercicio</summary><p class="small muted">${ex.why}</p></details>
+        </div>
+      </article>`;
+    }).join("")}
+    </div>
+    <section class="card stack">
+      <h3>Cómo subir de peso</h3>
+      <p class="small">Cada ejercicio tiene un rango de repeticiones. Cuando hagas <b>todas las series en lo alto del rango</b> con buena técnica, sube un poco el peso la siguiente sesión: barra +2,5–5 kg, mancuernas +1–2 kg, máquina una placa. <b>RIR</b> son las repeticiones que te quedan en reserva: RIR 2 = podrías hacer 2 más.</p>
+    </section>
+  </div>`;
+}
+function render(){
+  if (window.__PRINT) { document.body.classList.add("printing"); document.getElementById("main").innerHTML = printView(); return; }
+  const v = view(), w = planWeek(), ph = phaseOf(w);
+  document.querySelectorAll("#nav a").forEach(a => a.setAttribute("aria-current", a.dataset.v === v ? "page" : "false"));
+  document.getElementById("sub").textContent = w < 1 ? "Empieza el lunes 16 de noviembre" : w <= 12 ? `Semana ${w} de 12 · ${ph.name}` : ph.name;
+  document.getElementById("main").innerHTML = v === "ejercicios" ? viewEjercicios() : viewComidas();
+  if (v === "ejercicios") startAnim();
+}
+document.addEventListener("click", e => {
+  const t = e.target.closest("[data-action]"); if (!t) return;
+  const a = t.dataset.action;
+  if (a === "day") { UI.day = Number(t.dataset.i); render(); }
+  else if (a === "ses") { UI.ses = t.dataset.s; render(); }
+  else if (a === "anim") { ANIM.on = !ANIM.on; if (ANIM.on) ANIM.t0 = performance.now(); render(); }
+  else if (a === "still") { ANIM.still[t.dataset.id] = Number(t.dataset.t); render(); }
+});
+window.addEventListener("hashchange", () => { if (window.__PRINT) return; render(); window.scrollTo(0,0); });
+
+/* ============ VERSIÓN PDF (#imprimir) ============ */
+function printView(){
+  const back = `<a class="pback" href="#indice">↑ Índice</a>`;
+  const dayPages = DAYS.map(d => {
+    const ag = agendaOf(d);
+    return `<section class="ppage" id="dia-${d.key}">
+      <div class="phead"><div><div class="eyebrow">Menú</div><h2>${d.name}</h2></div><div class="row">${d.tags.map(t => `<span class="pill ${t}">${t === "baile" ? "Baile" : t === "gym" ? "Gimnasio "+d.gym : "Descanso"}</span>`).join("")}<span class="pill num">≈ ${fmt(d.kcal,0)} kcal</span>${back}</div></div>
+      <p class="small muted">${d.tip}</p>
+      ${ag.map(a => a.t === "act" ? (a.kind === "rest" ? "" : `<div class="act ${a.kind}"><time>${a.time}</time><span><b>${a.title}</b> · ${a.sum}</span></div>`)
+        : `<div class="pmeal"><div class="art">${dishSVG(d.key, a, a.title)}</div><div class="txt"><div class="when"><time>${a.time}</time><span class="eyebrow">${MEAL_LABEL[a.id] || ""}</span></div><h3>${a.title}</h3><ul>${a.items.map(i => `<li>${i}</li>`).join("")}</ul><span class="kc">${a.kcal}</span></div></div>`).join("")}
+    </section>`;
+  }).join("");
+  const exPages = ["A","B"].map(g => `<section class="ppage" id="dia-${g}">
+      <div class="phead"><div><div class="eyebrow">Entrenamiento</div><h2>${g === "A" ? "Día A · lunes 20:30" : "Día B · viernes 10:00"}</h2></div>${back}</div>
+      <div class="session"><h3>${g === "A" ? "Fuerza de glúteo e isquios" : "Glúteo medio, espalda y core"}</h3><p class="small">${g === "A" ? "Vienes del baile: salta el calentamiento general y haz 1–2 series ligeras de aproximación en los primeros ejercicios." : "Calentamiento: 5 min de bici + 15 puentes de glúteo con banda. Intensidad algo menor porque por la tarde bailas 2 h 30 min."}</p></div>
+      ${EX[g].map((ex, i) => { const F = POSES[ex.id]; return `<article class="pex">
+        <div class="pfigs"><figure>${figSVG(ex.id, 0)}<figcaption>1 · ${F.labels[0]}</figcaption></figure><figure>${figSVG(ex.id, 1)}<figcaption>2 · ${F.labels[1]}</figcaption></figure></div>
+        <div class="row" style="flex-wrap:nowrap;align-items:flex-start"><div class="ex-n">${i+1}</div><div class="stack" style="gap:6px;min-width:0"><h3>${ex.name}</h3><div class="chips">${chipsOf(ex)}</div></div></div>
+        <div class="presc"><div><span>Series</span><b>${ex.sets}</b></div><div><span>${ex.secs ? "Tiempo" : "Reps"}</span><b>${ex.repsTxt || ex.reps[0]+"–"+ex.reps[1]}</b></div><div><span>Descanso</span><b>${ex.restTxt}</b></div><div><span>RIR</span><b>${ex.eq === "core" ? "—" : ex.rir}</b></div></div>
+        <p class="small"><b>Ritmo:</b> ${ex.tempo}</p>
+        <p class="feel"><b>Dónde lo tienes que notar:</b> ${ex.feel}</p>
+        <div class="pcols"><div><b class="small">Técnica</b><ol class="steps">${ex.tech.map(t => `<li>${t}</li>`).join("")}</ol></div>
+        <div><b class="small">Errores comunes</b><ul class="errs">${ex.errors.map(t => `<li>${t}</li>`).join("")}</ul><p class="small" style="margin-top:8px"><b>Si la máquina está ocupada:</b> ${ex.alt}</p></div></div>
+      </article>`; }).join("")}
+    </section>`).join("");
+  return `<div class="print">
+    <section class="ppage cover" id="indice">
+      <div class="cover-band"><div class="eyebrow" style="color:inherit;opacity:.8">Plan de nutrición y entrenamiento · 12 semanas</div><h1 class="ctitle">Tu Plan<br>Fuerza y Baile</h1><p>Del 16 de noviembre de 2026 al 7 de febrero de 2027</p></div>
+      <div class="pgrid">
+        <div><h3>Índice</h3><ol class="toc">
+          <li><a href="#semana">Tu semana</a></li>
+          ${DAYS.map(d => `<li><a href="#dia-${d.key}">Menú del ${d.name.toLowerCase()}</a></li>`).join("")}
+          <li><a href="#dia-A">Entrenamiento · Día A</a></li>
+          <li><a href="#dia-B">Entrenamiento · Día B</a></li>
+          <li><a href="#progresar">Cómo progresar</a></li>
+        </ol><p class="small muted">Toca cualquier apartado para ir directo. En cada página, «↑ Índice» te devuelve aquí.</p></div>
+        <div><h3>Lo esencial</h3><ul class="errs" style="list-style:disc">
+          <li>3 comidas al día: unas 1.950 kcal (2.150 el viernes).</li>
+          <li>Proteína en cada comida: carne, pavo, jamón o yogur griego.</li>
+          <li>Agua: 2 L los días de descanso, hasta 3,5 L el viernes.</li>
+          <li>Gimnasio lunes 20:30 (Día A) y viernes 10:00 (Día B).</li>
+          <li>Duerme 8 h, sobre todo la noche del lunes y la del viernes.</li>
+        </ul></div>
+      </div>
+    </section>
+    <section class="ppage" id="semana">
+      <div class="phead"><div><div class="eyebrow">Organización</div><h2>Tu semana</h2></div>${back}</div>
+      <div class="tbl-wrap"><table><thead><tr><th>Día</th><th>Actividad</th><th>Kcal</th><th>Agua</th></tr></thead><tbody>
+        ${DAYS.map(d => `<tr><td><a href="#dia-${d.key}"><b>${d.name}</b></a></td><td>${d.label}</td><td class="num">≈ ${fmt(d.kcal,0)}</td><td class="num">${fmt(d.water*0.25,2)} L</td></tr>`).join("")}
+      </tbody></table></div>
+      <h3 style="margin-top:18px">Medidas caseras</h3>
+      <div class="tbl-wrap"><table><tbody>
+        <tr><td>1 palma de tu mano de carne cruda</td><td>110–130 g</td></tr><tr><td>1 palma grande</td><td>~150 g</td></tr>
+        <tr><td>1 puño de arroz o pasta cocidos</td><td>~120 g cocido (≈ 40 g crudo)</td></tr><tr><td>1 cucharada sopera de aceite</td><td>10 g</td></tr>
+        <tr><td>1 cucharadita de aceite</td><td>5 g</td></tr><tr><td>1 patata grande</td><td>~250 g</td></tr>
+      </tbody></table></div>
+      <h3 style="margin-top:18px">Si quieres cambiar algo</h3>
+      <div class="tbl-wrap"><table><tbody>
+        <tr><td><b>Proteína</b></td><td>Pollo ↔ pavo, lomo, filete de ternera o contramuslo sin piel, en la misma cantidad.</td></tr>
+        <tr><td><b>Hidratos</b></td><td>100 g de arroz o pasta ↔ 375 g de patata o boniato ↔ 150 g de pan.</td></tr>
+        <tr><td><b>Fruta</b></td><td>Cualquiera menos manzana: naranja, 2 mandarinas, 2 kiwis, pera, plátano o fresas.</td></tr>
+        <tr><td><b>Postre lácteo</b></td><td>Yogur griego ↔ 200 ml de leche ↔ 2 lonchas de queso tierno.</td></tr>
+        <tr><td><b>Sin tiempo</b></td><td>Pollo asado + 2 vasitos de arroz de microondas · bote de legumbre salteado con jamón · wrap de pollo asado.</td></tr>
+      </tbody></table></div>
+    </section>
+    ${dayPages}
+    ${exPages}
+    <section class="ppage" id="progresar">
+      <div class="phead"><div><div class="eyebrow">Progresión</div><h2>Cómo progresar</h2></div>${back}</div>
+      <p>Cada ejercicio tiene un rango de repeticiones. Cuando hagas <b>todas las series en lo alto del rango</b> con buena técnica, sube un poco el peso la siguiente sesión: barra +2,5–5 kg, mancuernas +1–2 kg, máquina una placa. Vuelves a la parte baja del rango.</p>
+      <p style="margin-top:8px"><b>RIR</b> = repeticiones que te quedan en reserva al terminar la serie. RIR 2 = podrías hacer 2 más.</p>
+      <h3 style="margin-top:18px">Las 12 semanas</h3>
+      <div class="tbl-wrap"><table><thead><tr><th>Semanas</th><th>Fechas</th><th>Cómo entrenar</th></tr></thead><tbody>
+        <tr><td>1–2</td><td>16 nov – 29 nov</td><td><b>Adaptación:</b> 2 series por ejercicio, RIR 3–4. Aprende la técnica.</td></tr>
+        <tr><td>3–6</td><td>30 nov – 27 dic</td><td><b>Progresión:</b> las series de cada ficha y el RIR indicado.</td></tr>
+        <tr><td>7</td><td>28 dic – 3 ene</td><td><b>Descarga:</b> mitad de series, mismo peso, RIR 4.</td></tr>
+        <tr><td>8–11</td><td>4 ene – 31 ene</td><td><b>Progresión 2:</b> +1 serie en hip thrust y abducción si te recuperas bien.</td></tr>
+        <tr><td>12</td><td>1 feb – 7 feb</td><td><b>Revisión:</b> una serie menos, RIR 3. Medidas y fotos finales.</td></tr>
+      </tbody></table></div>
+    </section>
+  </div>`;
+}
+
+render();
+</script>
+
+</body>
+</html>
